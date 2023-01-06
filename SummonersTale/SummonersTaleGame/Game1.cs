@@ -13,8 +13,14 @@ namespace SummonersTaleGame
         private readonly GameStateManager _manager;
         private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private TileMap _tileMap;
-        private Camera _camera;
+
+        private readonly GamePlayState _playState;
+        private readonly TitleState _titleState;
+
+        public SpriteBatch SpriteBatch => _spriteBatch;
+
+        public TitleState TitleState => _titleState;
+        public GamePlayState PlayState => _playState;
 
         public Game1()
         {
@@ -30,15 +36,19 @@ namespace SummonersTaleGame
             IsMouseVisible = true;
 
             Components.Add(_manager);
+
+            _playState = new(this);
+            _titleState = new(this);
+
+            _manager.PushState(_titleState);
         }
 
         protected override void Initialize()
         {
             Components.Add(new FramesPerSecond(this));
-            _graphics.ApplyChanges();
+            Components.Add(new Xin(this));
 
-            Engine.Reset(new(0, 0, 1280, 720), 32, 32);
-            _camera = new Camera();
+            _graphics.ApplyChanges();
 
             base.Initialize();
         }
@@ -46,22 +56,6 @@ namespace SummonersTaleGame
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            TileSheet sheet = new(Content.Load<Texture2D>(@"Tiles/TX Tileset Grass"), "test", new(8, 8, 32, 32));
-            TileSet set = new(sheet);
-
-            TileLayer ground = new(100, 100, 0, 0);
-            TileLayer edge = new(100, 100, -1, -1);
-            TileLayer building = new(100, 100, -1, -1);
-            TileLayer decore = new(100, 100, -1, -1);
-
-            Random random = new Random();
-            for (int i = 0; i < 1000; i++)
-            {
-                ground.SetTile(random.Next(0, 100), random.Next(0, 100), 0, random.Next(0, 64));
-            }
-
-            _tileMap = new(set, ground, edge, building, decore, "test");
         }
 
         protected override void Update(GameTime gameTime)
@@ -77,8 +71,6 @@ namespace SummonersTaleGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            _tileMap.Draw(gameTime, _spriteBatch, _camera, false);
 
             base.Draw(gameTime);
         }

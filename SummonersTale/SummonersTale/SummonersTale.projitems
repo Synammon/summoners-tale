@@ -10,9 +10,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)FramesPerSecond.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Game1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateManagement\BaseGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateManagement\GamePlayState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\GameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\StateManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateManagement\TitleState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Xin.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
