@@ -14,8 +14,8 @@ namespace SummonersTaleGame
         private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private readonly GamePlayState _playState;
-        private readonly TitleState _titleState;
+        private GamePlayState _playState;
+        private TitleState _titleState;
 
         public SpriteBatch SpriteBatch => _spriteBatch;
 
@@ -36,11 +36,6 @@ namespace SummonersTaleGame
             IsMouseVisible = true;
 
             Components.Add(_manager);
-
-            _playState = new(this);
-            _titleState = new(this);
-
-            _manager.PushState(_titleState);
         }
 
         protected override void Initialize()
@@ -56,6 +51,12 @@ namespace SummonersTaleGame
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            Services.AddService(typeof(SpriteBatch), _spriteBatch);
+
+            _playState = new(this);
+            _titleState = new(this);
+
+            _manager.PushState(_titleState);
         }
 
         protected override void Update(GameTime gameTime)

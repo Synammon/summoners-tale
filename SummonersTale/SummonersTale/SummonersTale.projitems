@@ -9,6 +9,11 @@
     <Import_RootNamespace>SummonersTale</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Button.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\Control.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\ControlManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\Label.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\PictureBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FramesPerSecond.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\BaseGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\GamePlayState.cs" />

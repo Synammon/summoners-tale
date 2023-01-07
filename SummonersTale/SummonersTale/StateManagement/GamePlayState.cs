@@ -8,13 +8,21 @@ using System.Text;
 
 namespace SummonersTale.StateManagement
 {
-    public class GamePlayState : BaseGameState
+    public interface IGamePlayState
+    {
+        GameState GameState { get; }
+    }
+
+    public class GamePlayState : BaseGameState, IGamePlayState
     {
         private TileMap _tileMap;
         private Camera _camera;
 
+        public GameState GameState => this;
+
         public GamePlayState(Game game) : base(game)
         {
+            Game.Services.AddService((IGamePlayState)this);
         }
 
         public override void Initialize()
@@ -98,7 +106,7 @@ namespace SummonersTale.StateManagement
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
-            _tileMap.Draw(gameTime, GameRef.SpriteBatch, _camera, false);
+            _tileMap.Draw(gameTime, SpriteBatch, _camera, false);
         }
     }
 }

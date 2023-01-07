@@ -6,20 +6,33 @@ using System.Text;
 
 namespace SummonersTale.StateManagement
 {
-    public class TitleState : BaseGameState
+    public interface ITitleState
+    {
+        GameState GameState { get; }
+    }
+
+    public class TitleState : BaseGameState, ITitleState
     {
         private SpriteFont _spriteFont;
         private double _timer;
 
+        public GameState GameState => this;
+
         public TitleState(Game game) : base(game)
         {
+            Game.Services.AddService((ITitleState)this);
+
+            Initialize();
+            LoadContent();
         }
 
         public override void Initialize()
         {
             _timer = 5;
+
             base.Initialize();
         }
+
         protected override void LoadContent()
         {
             _spriteFont = content.Load<SpriteFont>(@"Fonts/MainFont");
@@ -33,7 +46,7 @@ namespace SummonersTale.StateManagement
 
             if (_timer <= 0)
             {
-                manager.ChangeState(GameRef.PlayState);
+                manager.ChangeState((GameState)Game.Services.GetService(typeof(IGamePlayState)));
             }
 
             base.Update(gameTime);
@@ -44,15 +57,15 @@ namespace SummonersTale.StateManagement
             string message = "Game with begin in " + ((int)_timer).ToString() + " seconds.";
             Vector2 size = _spriteFont.MeasureString(message);
 
-            GameRef.SpriteBatch.Begin();
+            SpriteBatch.Begin();
 
-            GameRef.SpriteBatch.DrawString(
+            SpriteBatch.DrawString(
                 _spriteFont, 
                 message, 
                 new((1280 - size.X) / 2, 720 - (_spriteFont.LineSpacing * 5)), 
                 Color.White);
 
-            GameRef.SpriteBatch.End();
+            SpriteBatch.End();
 
             base.Draw(gameTime);
         }

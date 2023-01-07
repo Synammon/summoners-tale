@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SummonersTaleGame;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,16 @@ namespace SummonersTale.StateManagement
         #region Field Region
 
         protected readonly static Random random = new();
+        protected readonly SpriteBatch spriteBatch;
 
-        protected readonly Game1 GameRef;
+        #endregion
+
+        #region Proptery Region
+
+        public SpriteBatch SpriteBatch
+        {
+            get { return spriteBatch; }
+        }
 
         #endregion
 
@@ -21,7 +30,7 @@ namespace SummonersTale.StateManagement
         public BaseGameState(Game game)
             : base(game)
         {
-            GameRef = (Game1)game;
+            spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
         }
 
         protected override void LoadContent()
