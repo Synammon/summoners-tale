@@ -32,6 +32,8 @@ namespace SummonersTaleGame
             _graphics.ApplyChanges();
             _manager = new GameStateManager(this);
 
+            Services.AddService(typeof(GraphicsDeviceManager), _graphics);
+
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 

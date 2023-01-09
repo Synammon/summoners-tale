@@ -12,7 +12,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Button.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\Control.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\ControlManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\Form.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\Label.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\ListBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\MainForm.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\MessageForm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\PictureBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FramesPerSecond.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\BaseGameState.cs" />

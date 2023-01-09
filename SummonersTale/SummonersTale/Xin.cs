@@ -21,6 +21,16 @@ namespace SummonersTale
         public static KeyboardState LastKeyboardState { get { return lastKeyboardState; } }
         public static MouseState LastMouseState { get { return lastMouseState; } }
 
+        public static Point MouseAsPoint 
+        { 
+            get { return new Point(MouseState.X, MouseState.Y); } 
+        }
+
+        public static Point LastMouseAsPoint
+        {
+            get { return new Point(LastMouseState.X, LastMouseState.Y); }
+        }
+
         public Xin(Game game) : base(game)
         {
             keyboardState = Keyboard.GetState();

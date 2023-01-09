@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SummonersTaleGame;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -31,21 +30,6 @@ namespace SummonersTale.StateManagement
             : base(game)
         {
             spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
-        }
-
-        protected override void LoadContent()
-        {
-            base.LoadContent();
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime);
         }
 
         #endregion

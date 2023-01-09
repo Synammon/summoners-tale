@@ -23,6 +23,7 @@ namespace SummonersTale.Forms
         protected Color _color;
         protected string _type;
         protected bool _mouseOver;
+        protected Vector2 _offset;
 
         #endregion
 
@@ -110,6 +111,8 @@ namespace SummonersTale.Forms
             set { _type = value; }
         }
 
+        public Vector2 Offset { get { return _offset; } set { _offset = value; } }
+
         #endregion
 
         #region Constructor Region
@@ -121,6 +124,7 @@ namespace SummonersTale.Forms
             Visible = true;
             SpriteFont = ControlManager.SpriteFont;
             _mouseOver = false;
+            Offset = Vector2.Zero;
         }
 
         #endregion

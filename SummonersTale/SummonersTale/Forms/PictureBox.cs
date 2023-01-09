@@ -154,7 +154,7 @@ namespace SummonersTale.Forms
                         break;
                     case FillMethod.Fill:
                         _sourceRect = new(0, 0, Image.Width, Image.Height);
-                        spriteBatch.Draw(Image, DestinationRectangle, SourceRectangle, Color);
+                        spriteBatch.Draw(Image, DestinationRectangle, null, Color);
                         break;
                     case FillMethod.Center:
                         _sourceRect.Width = Image.Width;

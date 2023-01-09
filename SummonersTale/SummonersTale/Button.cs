@@ -58,7 +58,7 @@ namespace SummonersTale
             _spriteFont = ControlManager.SpriteFont;
 
             Vector2 size = _spriteFont.MeasureString(Text);
-            Vector2 offset = new((_background.Width - size.X) / 2, (_background.Height / 2));
+            Vector2 offset = new((_background.Width - size.X) / 2, ((_background.Height - size.Y) / 2));
 
             spriteBatch.DrawString(_spriteFont, Text, ((Position + offset)), Color);
         }
@@ -68,9 +68,10 @@ namespace SummonersTale
             MouseState mouse = Mouse.GetState();
             Point position = new(mouse.X, mouse.Y);
 
+
             Rectangle destination = new(
-                (int)_position.X,
-                (int)_position.Y,
+                (int)(Position.X + Offset.X),
+                (int)(Position.Y + Offset.Y),
                 _background.Width,
                 _background.Height);
 
@@ -87,9 +88,10 @@ namespace SummonersTale
                 return;
             }
 
-            if (destination.Contains(position) && Xin.WasMouseReleased(MouseButton.Left) && _frames >= 5)
+            if (Xin.WasMouseReleased(MouseButton.Left) && _frames >= 5)
             {
-                OnClick();
+                if (destination.Contains(position))
+                    OnClick();
             }
         }
 
