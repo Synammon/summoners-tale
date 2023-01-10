@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SummonersTale
@@ -106,6 +107,42 @@ namespace SummonersTale
                 MouseButton.Right => mouseState.RightButton == ButtonState.Released && lastMouseState.RightButton == ButtonState.Pressed,
                 _ => false,
             };
+        }
+
+        public static List<Keys> KeysPressed()
+        {
+            List<Keys> keys = new();
+
+            Keys[] current = keyboardState.GetPressedKeys();
+            Keys[] last = lastKeyboardState.GetPressedKeys();
+
+            foreach (Keys key in current)
+            {
+                if (!last.Contains(key))
+                {
+                    keys.Add(key);
+                }
+            }
+
+            return keys;
+        }
+
+        public static List<Keys> KeysReleased()
+        {
+            List<Keys> keys = new();
+
+            Keys[] current = keyboardState.GetPressedKeys();
+            Keys[] last = lastKeyboardState.GetPressedKeys();
+
+            foreach (Keys key in current)
+            {
+                if (last.Contains(key))
+                {
+                    keys.Add(key);
+                }
+            }
+
+            return keys;
         }
     }
 }

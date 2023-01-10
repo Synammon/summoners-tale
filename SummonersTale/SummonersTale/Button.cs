@@ -60,7 +60,7 @@ namespace SummonersTale
             Vector2 size = _spriteFont.MeasureString(Text);
             Vector2 offset = new((_background.Width - size.X) / 2, ((_background.Height - size.Y) / 2));
 
-            spriteBatch.DrawString(_spriteFont, Text, ((Position + offset)), Color);
+            spriteBatch.DrawString(_spriteFont, Text, Helper.NearestInt((Position + offset)), Color);
         }
 
         public override void HandleInput()

@@ -120,7 +120,7 @@ namespace SummonersTale.Forms
 
                 Matrix m = Matrix.CreateTranslation(new Vector3(Position, 0));
 
-                SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, m);
+                SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.AnisotropicWrap, null, null, null, m);
 
                 Background.Draw(SpriteBatch);
                 TitleBar.Draw(SpriteBatch);
@@ -131,14 +131,15 @@ namespace SummonersTale.Forms
 
                 SpriteBatch.Begin();
 
-                label.Position = position + Position;
+                label.Position = Helper.NearestInt(position + Position);
+                label.Color = Color.White;
                 label.Draw(SpriteBatch);
                 
                 SpriteBatch.End();
 
                 m = Matrix.CreateTranslation(new Vector3(0, 20, 0) + new Vector3(Position, 0));
 
-                SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, m);
+                SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.AnisotropicWrap, null, null, null, m);
 
                 _controls.Draw(SpriteBatch);
 

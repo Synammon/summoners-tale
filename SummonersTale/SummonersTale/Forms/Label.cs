@@ -17,7 +17,7 @@ namespace SummonersTale.Forms
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(_spriteFont, Text, Position, Color);
+            spriteBatch.DrawString(_spriteFont, Text, Helper.NearestInt(Position), Color);
         }
 
         public override void HandleInput()
