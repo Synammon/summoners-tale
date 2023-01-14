@@ -222,7 +222,7 @@ namespace Psilibrary.TileEngine
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Camera camera, bool debug = false)
         {
-            if (WidthInPixels >= 1280)
+            if (WidthInPixels >= Engine.TargetWidth)
             {
                 spriteBatch.Begin(
                     SpriteSortMode.Deferred,
@@ -236,7 +236,7 @@ namespace Psilibrary.TileEngine
             else
             {
                 Matrix m = Matrix.CreateTranslation(
-                    new Vector3((1280) / 2, (720 - HeightInPixels) / 2, 0));
+                    new Vector3((Engine.TargetWidth) / 2, (Engine.TargetHeight - HeightInPixels) / 2, 0));
                 spriteBatch.Begin(
                     SpriteSortMode.Deferred,
                     BlendState.AlphaBlend,

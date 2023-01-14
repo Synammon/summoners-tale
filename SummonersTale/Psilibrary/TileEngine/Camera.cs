@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using SummonersTale.SpriteClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,5 +55,28 @@ namespace Psilibrary.TileEngine
         }
 
         #endregion
+
+        public void LockToSprite(AnimatedSprite sprite, TileMap map)
+        {
+            position.X = (sprite.Position.X + sprite.Width / 2)
+                - (Engine.TargetWidth / 2);
+
+            position.Y = (sprite.Position.Y + sprite.Height / 2)
+                - (Engine.TargetHeight / 2);
+
+            LockCamera(map);
+        }
+
+
+        public void LockCamera(TileMap map)
+        {
+            position.X = MathHelper.Clamp(position.X,
+                0,
+                map.WidthInPixels - Engine.TargetWidth);
+
+            position.Y = MathHelper.Clamp(position.Y,
+                0,
+                map.HeightInPixels - Engine.TargetHeight);
+        }
     }
 }

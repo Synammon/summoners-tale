@@ -24,11 +24,14 @@ namespace SummonersTaleGame
 
         public Game1()
         {
+            Settings.Load();
+
             _graphics = new GraphicsDeviceManager(this)
             {
-                PreferredBackBufferWidth = 1280,
-                PreferredBackBufferHeight = 720
+                PreferredBackBufferWidth = Settings.Resolution.X,
+                PreferredBackBufferHeight = Settings.Resolution.Y,
             };
+
             _graphics.ApplyChanges();
             _manager = new GameStateManager(this);
 
