@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Forms\Textbox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FramesPerSecond.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Seettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\BaseGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\GamePlayState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\GameState.cs" />

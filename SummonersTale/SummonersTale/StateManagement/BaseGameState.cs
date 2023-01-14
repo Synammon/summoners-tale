@@ -10,8 +10,12 @@ namespace SummonersTale.StateManagement
     {
         #region Field Region
 
+        protected const int TargetWidth = 1280;
+        protected const int TargetHeight = 720;
+
         protected readonly static Random random = new();
         protected readonly SpriteBatch spriteBatch;
+        protected readonly RenderTarget2D renderTarget;
 
         #endregion
 
@@ -30,6 +34,7 @@ namespace SummonersTale.StateManagement
             : base(game)
         {
             spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
+            renderTarget = new(GraphicsDevice, TargetWidth, TargetHeight);
         }
 
         #endregion

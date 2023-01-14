@@ -57,16 +57,26 @@ namespace SummonersTale.StateManagement
             string message = "Game with begin in " + ((int)_timer).ToString() + " seconds.";
             Vector2 size = _spriteFont.MeasureString(message);
 
+            GraphicsDevice.SetRenderTarget(renderTarget);
+            GraphicsDevice.Clear(Color.Black);
+
             SpriteBatch.Begin();
 
             SpriteBatch.DrawString(
                 _spriteFont, 
                 message, 
-                new((1280 - size.X) / 2, 720 - (_spriteFont.LineSpacing * 5)), 
+                new((TargetWidth - size.X) / 2, TargetHeight - (_spriteFont.LineSpacing * 5)), 
                 Color.White);
 
             SpriteBatch.End();
 
+            GraphicsDevice.SetRenderTarget(null);
+
+            SpriteBatch.Begin();
+
+            SpriteBatch.Draw(renderTarget, new Rectangle(new(0,0), new(1920,1080)), Color.White);
+
+            SpriteBatch.End();
             base.Draw(gameTime);
         }
     }

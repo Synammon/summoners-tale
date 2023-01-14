@@ -12,6 +12,9 @@ namespace Psilibrary.TileEngine
 
         private static Camera camera;
 
+        public const int TargetWidth = 1280;
+        public const int TargetHeight = 720;
+
         #endregion
 
         #region Property Region

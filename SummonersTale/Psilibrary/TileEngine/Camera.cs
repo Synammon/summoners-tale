@@ -59,10 +59,10 @@ namespace Psilibrary.TileEngine
         public void LockToSprite(AnimatedSprite sprite, TileMap map)
         {
             position.X = (sprite.Position.X + sprite.Width / 2)
-                - (1280 / 2);
+                - (Engine.TargetWidth / 2);
 
             position.Y = (sprite.Position.Y + sprite.Height / 2)
-                - (720 / 2);
+                - (Engine.TargetHeight / 2);
 
             LockCamera(map);
         }
@@ -72,12 +72,11 @@ namespace Psilibrary.TileEngine
         {
             position.X = MathHelper.Clamp(position.X,
                 0,
-                map.WidthInPixels - 1280);
+                map.WidthInPixels - Engine.TargetWidth);
 
             position.Y = MathHelper.Clamp(position.Y,
                 0,
-                map.HeightInPixels - 720);
+                map.HeightInPixels - Engine.TargetHeight);
         }
-
     }
 }

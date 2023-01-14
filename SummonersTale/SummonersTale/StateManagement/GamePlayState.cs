@@ -141,6 +141,10 @@ namespace SummonersTale.StateManagement
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
+
+            GraphicsDevice.SetRenderTarget(renderTarget);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
             _tileMap.Draw(gameTime, SpriteBatch, _camera, false);
 
             spriteBatch.Begin(
@@ -153,6 +157,14 @@ namespace SummonersTale.StateManagement
                 _camera.Transformation);
 
             sprite.Draw(SpriteBatch);
+            SpriteBatch.End();
+
+            GraphicsDevice.SetRenderTarget(null);
+
+            SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp);
+
+            SpriteBatch.Draw(renderTarget, new Rectangle(new(0, 0), new(1920, 1080)), Color.White);
+
             SpriteBatch.End();
         }
     }
