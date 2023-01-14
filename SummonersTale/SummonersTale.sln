@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Psilibrary", "Psilibrary\Ps
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SummonersTaleGame", "SummonersTaleGame\SummonersTaleGame.csproj", "{9A96AEB3-7F33-4F07-803D-E3A47D58B99D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SummonersTaleEditor", "SummonersTaleEditor\SummonersTaleEditor.csproj", "{1B490FB5-BE8B-4A15-A297-7EEB062FC2A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SummonersTaleEditor", "SummonersTaleEditor\SummonersTaleEditor.csproj", "{1B490FB5-BE8B-4A15-A297-7EEB062FC2A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
