@@ -1,9 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Psilibrary.TileEngine;
 using SummonersTale;
 using SummonersTale.Forms;
+using SummonersTale.SpriteClasses;
 using SummonersTale.StateManagement;
+using System;
+using System.Xml.Schema;
 
 namespace SummonersTaleEditor
 {
@@ -13,6 +17,9 @@ namespace SummonersTaleEditor
         private SpriteBatch _spriteBatch;
         private readonly GameStateManager manager;
         private MainForm _mainForm;
+        private MenuForm _menuForm;
+
+        private TileMap _tileMap;
 
         public Editor()
         {
@@ -54,11 +61,27 @@ namespace SummonersTaleEditor
 
             _mainForm = new(this, Vector2.Zero, new(1920, 1080)) 
             { 
-                FullScreen = false,
+                FullScreen = true,
                 Title = "A Summoner's Tale Editor"
             };
 
+            _menuForm = new(this, new(1920 + 80, 0), new(80, 1080))
+            {
+                FullScreen = true,
+                Title = ""
+            };
+
             manager.ChangeState(_mainForm);
+
+            TileSheet sheet = new(Content.Load<Texture2D>(@"Tiles/Overworld"), "test", new(40, 36, 16, 16));
+            TileSet set = new(sheet);
+
+            TileLayer ground = new(100, 100, 0, 0);
+            TileLayer edge = new(100, 100, -1, -1);
+            TileLayer building = new(100, 100, -1, -1);
+            TileLayer decore = new(100, 100, -1, -1);
+
+            _tileMap = new(set, ground, edge, building, decore, "test");
         }
 
         protected override void Update(GameTime gameTime)

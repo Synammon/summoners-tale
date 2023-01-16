@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Psilibrary.TileEngine;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,16 +9,22 @@ namespace SummonersTale.Forms
 {
     public class MainForm : Form
     {
-        private Button _test;
-        private Textbox _textbox;
+        private MapDisplay _mapDisplay;
+        private RenderTarget2D _renderTarget2D;
+        private Button _menuButton;
+        private IMenuForm _menuForm;
 
         public MainForm(Game game, Vector2 position, Point size) : base(game, position, size)
         {
             Title = "";            
+            FullScreen = true;
         }
 
         public override void Initialize()
         {
+            Engine.Reset(new(0, 0, 1280, 1080), 32, 32);
+            Engine.ViewportRectangle = new(0, 0, 1280, 1080);
+
             base.Initialize();
         }
 
@@ -25,56 +32,95 @@ namespace SummonersTale.Forms
         {
             base.LoadContent();
 
-            _test = new(content.Load<Texture2D>(@"GUI/Button"), ButtonRole.Menu)
+            GraphicsDeviceManager gdm = Game.Services.GetService<GraphicsDeviceManager>();
+
+            _menuButton = new(content.Load<Texture2D>(@"GUI/g21688"), ButtonRole.Menu)
             {
-                Text = "Click Me",
-                Position = new(100, 100),
-                Size = new(300, 30),
-                Color = Color.Black,
-                Visible = true,
-                Enabled = true,
-                Offset = new(0, TitleBar.Height)
+                Text = "",
+                Position = new(gdm.PreferredBackBufferWidth - 84, 20)
             };
 
-            _test.Click += Test_Click;
-            Controls.Add(_test);
+            _menuButton.Click += MenuButton_Click;
 
-            Color[] buffer = new Color[3 * 20];
+            _renderTarget2D = new(GraphicsDevice, 1280, 1080);
 
-            for (int i = 0; i < buffer.Length; i++)
-                buffer[i] = Color.Black;
-
-            Texture2D caret = new(GraphicsDevice, 3, 20);
-            caret.SetData(buffer);
-
-            _textbox = new(content.Load<Texture2D>(@"GUI/TextBox"), caret)
+            _mapDisplay = new(null, 40, 32)
             {
-                HasFocus = true,
-                Visible = true,
-                Position = new(100, 20),
-                Enabled = true,
-                Size = new(300, 30),
-                Color = Color.Black,
+                HasFocus = false,
+                Position = new(0, 0)
             };
-            Controls.Add(_textbox);
+
+            TileSheet sheet = new(content.Load<Texture2D>(@"Tiles/Overworld"), "test", new(40, 36, 16, 16));
+            TileSet set = new(sheet);
+
+            TileLayer ground = new(100, 100, 0, 0);
+            TileLayer edge = new(100, 100, -1, -1);
+            TileLayer building = new(100, 100, -1, -1);
+            TileLayer decore = new(100, 100, -1, -1);
+
+            TileMap tileMap = new(set, ground, edge, building, decore, "test");
+
+            _mapDisplay.SetMap(tileMap);
+
+            Color[] data = new Color[1];
+            data[0] = Color.Transparent;
+
+            Texture2D b = new(GraphicsDevice, 1, 1);
+            b.SetData(data);
+
+            //    Game,
+            //    new(gdm.PreferredBackBufferWidth, 0),
+            //    new(128, gdm.PreferredBackBufferHeight))
+            //{
+            //    Title = "",
+            //};
+
+            //_menuForm.Background.Image = b;
         }
 
-        private void Test_Click(object sender, EventArgs e)
+        private void MenuButton_Click(object sender, EventArgs e)
         {
-            MessageForm frm = new(Game, new(500, 500), new(300, 100), "Message box!", true);
-            manager.PushTopMost(frm);
+            _menuForm = (IMenuForm)Game.Services.GetService<IMenuForm>();
+
+            manager.PushTopMost(_menuForm.GameState);
             Visible = true;
-            Enabled = false;
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            _mapDisplay.Update(gameTime);
+            _menuButton.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
+
+            GraphicsDevice.SetRenderTarget(_renderTarget2D);
+
+            _mapDisplay.Draw(spriteBatch);
+
+            GraphicsDevice.SetRenderTarget(null);
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(_renderTarget2D, new Rectangle(0, 0, 1280, 1080), Color.White);
+
+            Color[] data = new Color[640 * 1080];
+
+            for (int i = 0; i < data.Length; i++)
+                data[i] = Color.White;
+
+            Texture2D background = new(GraphicsDevice, 640, 1080);
+            background.SetData(data);
+
+            spriteBatch.Draw(background, new Rectangle(1280, 0, 640, 1080), Color.White);
+
+            _menuButton.Position = new(1920 - 84, 32);
+            _menuButton.Draw(SpriteBatch);
+
+            spriteBatch.End();
         }
     }
 }
