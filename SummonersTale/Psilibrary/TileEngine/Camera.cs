@@ -72,11 +72,11 @@ namespace Psilibrary.TileEngine
         {
             position.X = MathHelper.Clamp(position.X,
                 0,
-                map.WidthInPixels - Engine.TargetWidth);
+                map.WidthInPixels - Engine.ViewportRectangle.Width);
 
             position.Y = MathHelper.Clamp(position.Y,
                 0,
-                map.HeightInPixels - Engine.TargetHeight);
+                map.HeightInPixels - Engine.ViewportRectangle.Height);
         }
     }
 }

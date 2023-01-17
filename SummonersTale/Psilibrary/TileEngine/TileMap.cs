@@ -222,7 +222,7 @@ namespace Psilibrary.TileEngine
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Camera camera, bool debug = false)
         {
-            if (WidthInPixels >= Engine.TargetWidth)
+            if (WidthInPixels >= Engine.TargetWidth || debug)
             {
                 spriteBatch.Begin(
                     SpriteSortMode.Deferred,
