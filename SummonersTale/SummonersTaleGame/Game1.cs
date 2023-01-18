@@ -16,6 +16,8 @@ namespace SummonersTaleGame
 
         private GamePlayState _playState;
         private TitleState _titleState;
+        private MainMenuState _mainMenuState;
+        private NewGameState _newGameState;
 
         public SpriteBatch SpriteBatch => _spriteBatch;
 
@@ -60,6 +62,8 @@ namespace SummonersTaleGame
 
             _playState = new(this);
             _titleState = new(this);
+            _mainMenuState = new(this);
+            _newGameState = new(this);
 
             _manager.PushState(_titleState);
         }

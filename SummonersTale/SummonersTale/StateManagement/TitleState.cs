@@ -46,7 +46,7 @@ namespace SummonersTale.StateManagement
 
             if (_timer <= 0)
             {
-                manager.ChangeState((GameState)Game.Services.GetService(typeof(IGamePlayState)));
+                manager.ChangeState((GameState)Game.Services.GetService(typeof(IMainMenuState)));
             }
 
             base.Update(gameTime);

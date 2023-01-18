@@ -24,10 +24,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Forms\Textbox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FramesPerSecond.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\BaseGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\GamePlayState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\GameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateManagement\MainMenuState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateManagement\NewGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\StateManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\TitleState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xin.cs" />

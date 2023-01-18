@@ -67,15 +67,6 @@ namespace SummonersTale.Forms
 
             Texture2D b = new(GraphicsDevice, 1, 1);
             b.SetData(data);
-
-            //    Game,
-            //    new(gdm.PreferredBackBufferWidth, 0),
-            //    new(128, gdm.PreferredBackBufferHeight))
-            //{
-            //    Title = "",
-            //};
-
-            //_menuForm.Background.Image = b;
         }
 
         private void MenuButton_Click(object sender, EventArgs e)
