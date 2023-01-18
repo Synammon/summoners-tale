@@ -19,7 +19,6 @@ namespace SummonersTale.StateManagement
 
     public class NewGameState : BaseGameState, INewGameState
     {
-        private Rectangle _destination = new(0, 0, TargetWidth, TargetHeight);
         private Rectangle _portraitDestination = new(599, 57, 633, 617);
         private RightLeftSelector _portraitSelector;
         private RightLeftSelector _genderSelector;
@@ -30,6 +29,7 @@ namespace SummonersTale.StateManagement
         private Button _back;
         private readonly Dictionary<string, Animation> animations = new();
         private AnimatedSprite _sprite;
+        private RenderTarget2D renderTarget2D;
 
         public GameState GameState => this;
 
@@ -61,6 +61,9 @@ namespace SummonersTale.StateManagement
 
         protected override void LoadContent()
         {
+            renderTarget2D = new(GraphicsDevice, TargetWidth, TargetHeight);
+
+            Controls = new(content.Load<SpriteFont>(@"Fonts/MainFont"), 100);
             _genderSelector = new(
                 content.Load<Texture2D>(@"GUI\g22987"),
                 content.Load<Texture2D>(@"GUI\g21245"))
@@ -90,7 +93,7 @@ namespace SummonersTale.StateManagement
             caret.SetData(colourData);
 
             _nameTextBox = new(
-                null,
+                content.Load<Texture2D>(@"GUI/textbox"),
                 caret)
             {
                 Position = new(207, 138),
@@ -128,9 +131,11 @@ namespace SummonersTale.StateManagement
 
             
             _portraitSelector.SetItems(_femalePortraits.Keys.ToArray(), 270);
-            _sprite = new(_femalePortraits["Female 0"], animations);
-            _sprite.CurrentAnimation = "walkdown";
-            _sprite.IsAnimating = true;
+            _sprite = new(_femalePortraits["Female 0"], animations)
+            {
+                CurrentAnimation = "walkdown",
+                IsAnimating = true
+            };
 
             _create = new(
                 content.Load<Texture2D>(@"GUI\g9202"),
@@ -144,7 +149,7 @@ namespace SummonersTale.StateManagement
 
             _back = new(
                 content.Load<Texture2D>(@"GUI\g9202"),
-                ButtonRole.Accept)
+                ButtonRole.Cancel)
             {
                 Text = "Back",
                 Position = new(350, 640),
@@ -153,6 +158,11 @@ namespace SummonersTale.StateManagement
 
             _back.Click += Back_Click;
 
+            Controls.Add(_nameTextBox);
+            Controls.Add(_genderSelector);
+            Controls.Add(_portraitSelector);
+            Controls.Add(_create);
+            Controls.Add(_back);
         }
 
         private void Back_Click(object sender, EventArgs e)
@@ -166,7 +176,7 @@ namespace SummonersTale.StateManagement
                 Game,
                 _nameTextBox.Text,
                 _genderSelector.SelectedIndex == 0,
-                null);
+                _sprite);
 
             IGamePlayState gamePlayState = Game.Services.GetService<IGamePlayState>();
 
@@ -185,9 +195,11 @@ namespace SummonersTale.StateManagement
                 _nameTextBox.Text = "Bethany";
                 _sprite = new(
                     _femalePortraits[_portraitSelector.SelectedItem],
-                    animations);
-                _sprite.CurrentAnimation = "walkdown";
-                _sprite.IsAnimating = true;
+                    animations)
+                {
+                    CurrentAnimation = "walkdown",
+                    IsAnimating = true
+                };
             }
             else
             {
@@ -195,9 +207,11 @@ namespace SummonersTale.StateManagement
                 _nameTextBox.Text = "Anthony";
                 _sprite = new(
                     _malePortraits[_portraitSelector.SelectedItem],
-                    animations);
-                _sprite.CurrentAnimation = "walkdown";
-                _sprite.IsAnimating = true;
+                    animations)
+                {
+                    CurrentAnimation = "walkdown",
+                    IsAnimating = true
+                };
             }
         }
 
@@ -207,44 +221,37 @@ namespace SummonersTale.StateManagement
             {
                 _sprite = new(
                     _femalePortraits[_portraitSelector.SelectedItem],
-                    animations);
-                _sprite.CurrentAnimation = "walkdown";
-                _sprite.IsAnimating = true;
+                    animations)
+                {
+                    CurrentAnimation = "walkdown",
+                    IsAnimating = true
+                };
             }
             else
             {
                 _sprite = new(
                     _malePortraits[_portraitSelector.SelectedItem],
-                    animations);
-                _sprite.CurrentAnimation = "walkdown";
-                _sprite.IsAnimating = true;
+                    animations)
+                {
+                    CurrentAnimation = "walkdown",
+                    IsAnimating = true
+                };
             }
         }
 
         public override void Update(GameTime gameTime)
         {
-            _portraitSelector.Update(gameTime);
-            _genderSelector.Update(gameTime);
-            _nameTextBox.Update(gameTime);
-            _create.Update(gameTime);
-            _back.Update(gameTime);
+            Controls.Update(gameTime);            
             _sprite.Update(gameTime);
-
-            if (Xin.WasKeyReleased(Microsoft.Xna.Framework.Input.Keys.Enter))
-            {
-                Create_Click(this, new());
-            }
-
-            if (Xin.WasKeyReleased(Microsoft.Xna.Framework.Input.Keys.Escape))
-            {
-                Back_Click(this, new());
-            }
 
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.SetRenderTarget(renderTarget2D);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
             SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
 
             if (_genderSelector.SelectedIndex == 0)
@@ -264,16 +271,25 @@ namespace SummonersTale.StateManagement
                     Color.White);
             }
 
-            _genderSelector.Draw(SpriteBatch);
-            _portraitSelector.Draw(SpriteBatch);
-            _nameTextBox.Draw(SpriteBatch);
-            _create.Draw(SpriteBatch);
-            _back.Draw(SpriteBatch);
+            Controls.Draw(SpriteBatch);
+
             _sprite.Draw(SpriteBatch);
 
             base.Draw(gameTime);
 
             SpriteBatch.End();
+
+            GraphicsDevice.SetRenderTarget(null);
+
+            SpriteBatch.Begin();
+
+            SpriteBatch.Draw(
+                renderTarget2D, 
+                new Rectangle(0, 0, Settings.Resolution.X, Settings.Resolution.Y), 
+                Color.White);
+
+            SpriteBatch.End();
+
         }
     }
 }

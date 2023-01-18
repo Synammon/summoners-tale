@@ -67,9 +67,7 @@ namespace SummonersTale
         {
             MouseState mouse = Mouse.GetState();
             Point position = new(mouse.X, mouse.Y);
-
-
-            Rectangle destination = new(
+            Rectangle destination = new Rectangle(
                 (int)(Position.X + Offset.X),
                 (int)(Position.Y + Offset.Y),
                 _background.Width,
@@ -90,7 +88,9 @@ namespace SummonersTale
 
             if (Xin.WasMouseReleased(MouseButton.Left) && _frames >= 5)
             {
-                if (destination.Contains(position))
+                Rectangle r = destination.Scale(Settings.Scale);
+
+                if (r.Contains(position))
                     OnClick();
             }
         }

@@ -26,13 +26,14 @@ namespace SummonersTale.StateManagement
 
         private double timer;
 
-        Button newGameButton;
-        Button oldGameButton;
-        Button optionsButton;
-        Button creditsButton;
-        Button leaveButton;
+        private Button newGameButton;
+        private Button oldGameButton;
+        private Button optionsButton;
+        private Button creditsButton;
+        private Button leaveButton;
+        private RenderTarget2D renderTarget2D;
 
-        public GameState GameState => throw new NotImplementedException();
+        public GameState GameState => this;
 
         #endregion
 
@@ -53,6 +54,7 @@ namespace SummonersTale.StateManagement
         protected override void LoadContent()
         {
             base.LoadContent();
+            renderTarget2D = new(GraphicsDevice, TargetWidth, TargetHeight);
             Texture2D texture = new(GraphicsDevice, 400, 50);
 
             Color[] buffer = new Color[400 * 50];
@@ -65,7 +67,7 @@ namespace SummonersTale.StateManagement
             newGameButton = new(content.Load<Texture2D>(@"GUI/g9202"), ButtonRole.Menu)
             {
                 Text = "New Game",
-                Position = new((Settings.Resolution.X - 200) / 2, 100),
+                Position = new((TargetWidth - 200) / 2, 100),
                 Color = Color.White,
                 Size = new(200, 50)
             };
@@ -73,7 +75,7 @@ namespace SummonersTale.StateManagement
             oldGameButton = new(content.Load<Texture2D>(@"GUI/g9202"), ButtonRole.Menu)
             {
                 Text = "Continue",
-                Position = new((Settings.Resolution.X - 200) / 2, 200),
+                Position = new((TargetWidth - 200) / 2, 200),
                 Color = Color.White,
                 Size = new(200, 50)
             };
@@ -81,7 +83,7 @@ namespace SummonersTale.StateManagement
             optionsButton = new(content.Load<Texture2D>(@"GUI/g9202"), ButtonRole.Menu)
             {
                 Text = "Options",
-                Position = new((Settings.Resolution.X - 200) / 2, 300),
+                Position = new((TargetWidth - 200) / 2, 300),
                 Color = Color.White,
                 Size = new(200, 50)
             };
@@ -89,7 +91,7 @@ namespace SummonersTale.StateManagement
             creditsButton = new(content.Load<Texture2D>(@"GUI/g9202"), ButtonRole.Menu)
             {
                 Text = "Credits",
-                Position = new((Settings.Resolution.X - 200) / 2, 400),
+                Position = new((TargetWidth - 200) / 2, 400),
                 Color = Color.White,
                 Size = new(200, 50)
             };
@@ -97,7 +99,7 @@ namespace SummonersTale.StateManagement
             leaveButton = new(content.Load<Texture2D>(@"GUI/g9202"), ButtonRole.Menu)
             {
                 Text = "Leave",
-                Position = new((Settings.Resolution.X - 200) / 2, 500),
+                Position = new((TargetWidth - 200) / 2, 500),
                 Color = Color.White,
                 Size = new(200, 50)
             };
@@ -161,9 +163,23 @@ namespace SummonersTale.StateManagement
         {
             base.Draw(gameTime);
 
+            GraphicsDevice.SetRenderTarget(renderTarget2D);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
             SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
 
             Controls.Draw(SpriteBatch);
+
+            SpriteBatch.End();
+
+            GraphicsDevice.SetRenderTarget(null);
+
+            SpriteBatch.Begin();
+
+            SpriteBatch.Draw(
+                renderTarget2D, 
+                new Rectangle(0, 0, Settings.Resolution.X, Settings.Resolution.Y), 
+                Color.White);
 
             SpriteBatch.End();
         }

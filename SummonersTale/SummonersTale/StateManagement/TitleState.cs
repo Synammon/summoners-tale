@@ -60,12 +60,13 @@ namespace SummonersTale.StateManagement
             GraphicsDevice.SetRenderTarget(renderTarget);
             GraphicsDevice.Clear(Color.Black);
 
+            Vector2 location = new((TargetWidth - size.X) / 2, TargetHeight - (_spriteFont.LineSpacing * 5));
             SpriteBatch.Begin();
 
             SpriteBatch.DrawString(
                 _spriteFont, 
                 message, 
-                new((TargetWidth - size.X) / 2, TargetHeight - (_spriteFont.LineSpacing * 5)), 
+                Helper.NearestInt(location), 
                 Color.White);
 
             SpriteBatch.End();
