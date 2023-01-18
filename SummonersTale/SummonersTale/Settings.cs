@@ -10,9 +10,17 @@ namespace SummonersTale
 {
     public class Settings
     {
+        public const int BaseWidth = 1280;
+        public const int BaseHeight = 720;
+
         private static float musicVolume = 0.5f;
         private static float soundVolume = 0.5f;
-        private static Point resolution = new(1280, 720);
+        private static Point resolution = new(BaseWidth, BaseHeight);
+
+        public static Vector2 Scale
+        {
+            get { return new((float)resolution.X / BaseWidth, (float)resolution.Y / BaseHeight); }
+        }
 
         public static float MusicVolume
         {

@@ -32,10 +32,7 @@ namespace SummonersTale.Forms
         {
             Vector2 dimensions = ControlManager.SpriteFont.MeasureString(_text);
             dimensions.Y = 0;
-            spriteBatch.Draw(
-                _background,
-                new Rectangle(Helper.V2P(Position), Helper.V2P(Size)),
-                Color.White);
+            spriteBatch.Draw(_background, Position, Color.White);
             spriteBatch.DrawString(
                 ControlManager.SpriteFont,
                 Text,

@@ -12,6 +12,7 @@ namespace SummonersTale.StateManagement
     public interface IGamePlayState
     {
         GameState GameState { get; }
+        void NewGame();
     }
 
     public class GamePlayState : BaseGameState, IGamePlayState
@@ -36,7 +37,6 @@ namespace SummonersTale.StateManagement
         }
         protected override void LoadContent()
         {
-
             TileSheet sheet = new(content.Load<Texture2D>(@"Tiles/Overworld"), "test", new(40, 36, 16, 16));
             TileSet set = new(sheet);
 
@@ -166,6 +166,11 @@ namespace SummonersTale.StateManagement
             SpriteBatch.Draw(renderTarget, new Rectangle(new(0, 0), new(1920, 1080)), Color.White);
 
             SpriteBatch.End();
+        }
+
+        public void NewGame()
+        {
+            LoadContent();
         }
     }
 }

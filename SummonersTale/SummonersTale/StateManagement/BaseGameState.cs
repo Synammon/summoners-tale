@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SummonersTale.Forms;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,7 @@ namespace SummonersTale.StateManagement
     public class BaseGameState : GameState
     {
         #region Field Region
-
+        
         protected const int TargetWidth = 1280;
         protected const int TargetHeight = 720;
 
@@ -20,6 +21,8 @@ namespace SummonersTale.StateManagement
         #endregion
 
         #region Proptery Region
+        protected ControlManager Controls { get; set; }
+        protected static Player Player { get; set; }
 
         public SpriteBatch SpriteBatch
         {
@@ -38,5 +41,12 @@ namespace SummonersTale.StateManagement
         }
 
         #endregion
+
+        protected override void LoadContent()
+        {
+            Controls = new(content.Load<SpriteFont>(@"Fonts/MainFont"), 100);
+
+            base.LoadContent();
+        }
     }
 }

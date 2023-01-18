@@ -109,7 +109,6 @@ namespace ShadowMonsters.Controls
         {
             Vector2 drawTo = _position;
 
-
             _spriteFont = ControlManager.SpriteFont;
 
             _yOffset = (int)((_leftTexture.Height - _spriteFont.MeasureString("W").Y) / 2);
@@ -173,7 +172,7 @@ namespace ShadowMonsters.Controls
             {
                 Point mouse = Xin.MouseAsPoint;
 
-                if (_leftSide.Contains(mouse))
+                if (_leftSide.Scale(Settings.Scale).Contains(mouse))
                 {
                     _selectedItem--;
                     if (_selectedItem < 0)
@@ -181,7 +180,7 @@ namespace ShadowMonsters.Controls
                     OnSelectionChanged();
                 }
 
-                if (_rightSide.Contains(mouse))
+                if (_rightSide.Scale(Settings.Scale).Contains(mouse))
                 {
                     _selectedItem++;
                     if (_selectedItem >= _items.Count)
