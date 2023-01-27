@@ -163,7 +163,7 @@ namespace SummonersTale.StateManagement
 
             SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp);
 
-            SpriteBatch.Draw(renderTarget, new Rectangle(new(0, 0), new(1920, 1080)), Color.White);
+            SpriteBatch.Draw(renderTarget, new Rectangle(new(0, 0), Settings.Resolution), Color.White);
 
             SpriteBatch.End();
         }
