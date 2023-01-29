@@ -93,7 +93,7 @@ namespace SummonersTale.StateManagement
             caret.SetData(colourData);
 
             _nameTextBox = new(
-                content.Load<Texture2D>(@"GUI/textbox"),
+                content.Load<Texture2D>(@"GUI/TextBox"),
                 caret)
             {
                 Position = new(207, 138),

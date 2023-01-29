@@ -1,9 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using System.Linq;
+using Microsoft.Xna.Framework.Input.Touch;
 
 namespace SummonersTale
 {
@@ -14,7 +15,9 @@ namespace SummonersTale
         private static KeyboardState keyboardState;
         private static KeyboardState lastKeyboardState;
         private static MouseState mouseState;
+        private static TouchCollection lastTouchLocations;
         private static MouseState lastMouseState;
+        private static TouchCollection touchLocations;
 
         public static KeyboardState KeyboardState { get { return keyboardState; } }
         public static MouseState MouseState { get { return mouseState; } }
@@ -22,9 +25,9 @@ namespace SummonersTale
         public static KeyboardState LastKeyboardState { get { return lastKeyboardState; } }
         public static MouseState LastMouseState { get { return lastMouseState; } }
 
-        public static Point MouseAsPoint 
-        { 
-            get { return new Point(MouseState.X, MouseState.Y); } 
+        public static Point MouseAsPoint
+        {
+            get { return new Point(MouseState.X, MouseState.Y); }
         }
 
         public static Point LastMouseAsPoint
@@ -45,6 +48,8 @@ namespace SummonersTale
 
             keyboardState = Keyboard.GetState();
             mouseState = Mouse.GetState();
+            lastTouchLocations = touchLocations;
+            touchLocations = TouchPanel.GetState();
 
             base.Update(gameTime);
         }
@@ -143,6 +148,85 @@ namespace SummonersTale
             }
 
             return keys;
+        }
+
+        public static TouchCollection TouchPanelState
+        {
+            get { return touchLocations; }
+        }
+
+        public static TouchCollection LastTouchPanelState
+        {
+            get { return lastTouchLocations; }
+        }
+
+        public static bool TouchReleased()
+        {
+            TouchCollection tc = touchLocations;
+
+            if (tc.Count > 0 &&
+                tc[0].State == TouchLocationState.Released)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool TouchPressed()
+        {
+            return (touchLocations.Count > 0 &&
+                (touchLocations[0].State == TouchLocationState.Pressed));
+        }
+
+        public static bool TouchMoved()
+        {
+            return (touchLocations.Count > 0 &&
+                (touchLocations[0].State == TouchLocationState.Moved));
+        }
+
+        public static Vector2 TouchLocation
+        {
+            get
+            {
+                Vector2 result = Vector2.Zero;
+
+                if (touchLocations.Count > 0)
+                {
+                    if (touchLocations[0].State == TouchLocationState.Pressed ||
+                        touchLocations[0].State == TouchLocationState.Moved)
+                    {
+                        result = touchLocations[0].Position;
+                    }
+                }
+
+                return result;
+            }
+        }
+
+        public static Vector2 TouchReleasedAt
+        {
+            get
+            {
+                Vector2 result = Vector2.Zero;
+
+                if (touchLocations.Count > 0)
+                {
+                    if (touchLocations[0].State == TouchLocationState.Released)
+                    {
+                        result = touchLocations[0].Position;
+                    }
+                }
+
+                return result;
+            }
+        }
+
+        public static bool WasKeyPressed()
+        {
+            return
+                keyboardState.GetPressedKeyCount() > 0 &&
+                lastKeyboardState.GetPressedKeyCount() == 0;
         }
     }
 }

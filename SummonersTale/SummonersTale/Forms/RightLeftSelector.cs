@@ -188,6 +188,25 @@ namespace ShadowMonsters.Controls
                     OnSelectionChanged();
                 }
             }
+
+            if (Xin.TouchReleased())
+            {
+                if (_leftSide.Scale(Settings.Scale).Contains(Xin.TouchLocation))
+                {
+                    _selectedItem--;
+                    if (_selectedItem < 0)
+                        _selectedItem = this.Items.Count - 1;
+                    OnSelectionChanged();
+                }
+
+                if (_rightSide.Scale(Settings.Scale).Contains(Xin.TouchLocation))
+                {
+                    _selectedItem++;
+                    if (_selectedItem >= _items.Count)
+                        _selectedItem = 0;
+                    OnSelectionChanged();
+                }
+            }
         }
 
         #endregion

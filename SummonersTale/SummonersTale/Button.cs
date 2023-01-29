@@ -93,6 +93,16 @@ namespace SummonersTale
                 if (r.Contains(position))
                     OnClick();
             }
+
+            if (Xin.TouchReleased() && _frames >= 5)
+            {
+                Rectangle rectangle= destination.Scale(Settings.Scale);
+
+                if (rectangle.Contains(Xin.TouchReleasedAt))
+                {
+                    OnClick();
+                }
+            }
         }
 
         private void OnClick()
