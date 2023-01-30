@@ -189,7 +189,7 @@ namespace SummonersTale
         {
             get
             {
-                Vector2 result = Vector2.Zero;
+                Vector2 result = Vector2.Zero - Vector2.One;
 
                 if (touchLocations.Count > 0)
                 {

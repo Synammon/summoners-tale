@@ -20,6 +20,11 @@ namespace SummonersTale.StateManagement
         private TileMap _tileMap;
         private Camera _camera;
         private AnimatedSprite sprite;
+        private Button upButton, downButton, leftButton, rightButton;
+        private bool inMotion = false;
+        private Rectangle collision = new();
+        private float speed;
+        private Vector2 motion;
 
         public GameState GameState => this;
 
@@ -32,9 +37,12 @@ namespace SummonersTale.StateManagement
         {
             Engine.Reset(new(0, 0, 1280, 720), 32, 32);
             _camera = new();
+            motion = new();
+            speed = 96;
 
             base.Initialize();
         }
+
         protected override void LoadContent()
         {
             TileSheet sheet = new(content.Load<Texture2D>(@"Tiles/Overworld"), "test", new(40, 36, 16, 16));
@@ -76,60 +84,192 @@ namespace SummonersTale.StateManagement
             };
 
             base.LoadContent();
+
+            rightButton = new(content.Load<Texture2D>("GUI/g21245"), ButtonRole.Menu)
+            {
+                Position = new(80, Settings.BaseHeight - 80),
+                Size = new(32, 32),
+                Text = "",
+                Color = Color.White,
+            };
+
+            rightButton.Down += RightButton_Down;
+
+            Controls.Add(rightButton);
+
+            upButton = new(content.Load<Texture2D>("GUI/g21263"), ButtonRole.Menu)
+            {
+                Position = new(48, Settings.BaseHeight - 48 - 64),
+                Size= new(32, 32),
+                Text= "",
+                Color= Color.White,
+            };
+
+            upButton.Down += UpButton_Down;
+
+            Controls.Add(upButton);
+
+            downButton = new(content.Load<Texture2D>("GUI/g21272"), ButtonRole.Menu)
+            {
+                Position= new(48, Settings.BaseHeight - 48),
+                Size = new(32, 32),
+                Text = "",
+                Color = Color.White,
+            };
+
+            downButton.Down += DownButton_Down;
+
+            Controls.Add(downButton);
+
+            leftButton = new(content.Load<Texture2D>("GUI/g22987"), ButtonRole.Menu)
+            {
+                Position = new(16, Settings.BaseHeight - 80),
+                Size = new(32, 32),
+                Text = "",
+                Color = Color.White,
+            };
+
+            leftButton.Down += LeftButton_Down;
+
+            Controls.Add(leftButton);
+        }
+
+        private void LeftButton_Down(object sender, EventArgs e)
+        {
+            if (!inMotion)
+            {
+                MoveLeft();
+            }
+        }
+
+        private void MoveLeft()
+        {
+            motion = new(-1, 0);
+            inMotion = true;
+            sprite.CurrentAnimation = "walkleft";
+            collision = new(
+                (sprite.Tile.X - 2) * Engine.TileWidth,
+                sprite.Tile.Y * Engine.TileHeight,
+                Engine.TileWidth,
+                Engine.TileHeight);
+        }
+
+        private void RightButton_Down(object sender, EventArgs e)
+        {
+            if (!inMotion)
+            {
+                MoveRight();
+            }
+        }
+
+        private void MoveRight()
+        {
+            motion = new(1, 0);
+            inMotion = true;
+            sprite.CurrentAnimation = "walkright";
+            collision = new(
+                (sprite.Tile.X + 2) * Engine.TileWidth,
+                sprite.Tile.Y * Engine.TileHeight,
+                Engine.TileWidth,
+                Engine.TileHeight);
+        }
+
+        private void DownButton_Down(object sender, EventArgs e)
+        {
+            if (!inMotion)
+            {
+                MoveDown();
+            }
+        }
+
+        private void MoveDown()
+        {
+            motion = new(0, 1);
+            Point newTile = sprite.Tile + new Point(0, 2);
+            inMotion = true;
+            sprite.CurrentAnimation = "walkdown";
+            collision = new(
+                newTile.X * Engine.TileWidth,
+                newTile.Y * Engine.TileHeight,
+                Engine.TileWidth,
+                Engine.TileHeight);
+        }
+
+        private void UpButton_Down(object sender, EventArgs e)
+        {
+            if (!inMotion)
+            {
+                MoveUp();
+            }
+        }
+
+        private void MoveUp()
+        {
+            motion = new(0, -1);
+            inMotion = true;
+            sprite.CurrentAnimation = "walkup";
+            collision = new(
+                sprite.Tile.X * Engine.TileWidth,
+                (sprite.Tile.Y - 2) * Engine.TileHeight,
+                Engine.TileWidth,
+                Engine.TileHeight);
         }
 
         public override void Update(GameTime gameTime)
         {
-            Vector2 motion = Vector2.Zero;
+            Controls.Update(gameTime);
 
-            if (Xin.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.A))
+            if (Xin.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.A) && !inMotion)
             {
-                motion.X = -1;
-
-                if (sprite.CurrentAnimation != "walkleft")
-                {
-                    sprite.CurrentAnimation = "walkleft";
-                    sprite.ResetAnimation();
-                }
+                MoveLeft();
             }
-            else if (Xin.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D))
+            else if (Xin.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D) && !inMotion)
             {
-                motion.X = 1;
-
-                if (sprite.CurrentAnimation != "walkright")
-                {
-                    sprite.CurrentAnimation = "walkright";
-                    sprite.ResetAnimation();
-                }
+                MoveRight();
             }
 
-            if (Xin.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.W))
+            if (Xin.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.W) && !inMotion)
             {
-                motion.Y = -1;
-
-                if (sprite.CurrentAnimation != "walkup")
-                {
-                    sprite.CurrentAnimation = "walkup";
-                    sprite.ResetAnimation();
-                }
+                MoveUp();
             }
-            else if (Xin.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.S))
+            else if (Xin.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.S) && !inMotion)
             {
-                motion.Y = 1;
-
-                if (sprite.CurrentAnimation != "walkdown")
-                {
-                    sprite.CurrentAnimation = "walkdown";
-                    sprite.ResetAnimation();
-                }
+                MoveDown();
             }
 
-            if (motion != Vector2.Zero)
+            if (motion != Vector2.Zero) 
+            {
                 motion.Normalize();
+            }
+            else
+            {
+                inMotion = false;
+                return;
+            }
 
-            if (!sprite.LockToMap(new(99 * Engine.TileWidth, 99 * Engine.TileHeight), ref motion)) return;
+            if (!sprite.LockToMap(new(99 * Engine.TileWidth, 99 * Engine.TileHeight), ref motion))
+            {
+                inMotion = false;
+                return;
+            }
 
-            sprite.Position += motion * 160 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Vector2 newPosition = sprite.Position + motion * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            Rectangle nextPotition = new Rectangle(
+                (int)newPosition.X,
+                (int)newPosition.Y,
+                Engine.TileWidth,
+                Engine.TileHeight);
+
+            if (nextPotition.Intersects(collision))
+            {
+                inMotion = false;
+                motion = Vector2.Zero;
+                sprite.Position = new((int)sprite.Position.X, (int)sprite.Position.Y);
+                return;
+            }
+            sprite.Position = newPosition;
+            sprite.Tile = Engine.VectorToCell(newPosition);
 
             _camera.LockToSprite(sprite, _tileMap);
 
@@ -158,6 +298,10 @@ namespace SummonersTale.StateManagement
 
             sprite.Draw(SpriteBatch);
             SpriteBatch.End();
+
+            spriteBatch.Begin();
+            Controls.Draw(SpriteBatch);
+            spriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);
 
