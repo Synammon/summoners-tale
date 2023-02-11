@@ -89,12 +89,7 @@ namespace SummonersTale.StateManagement
                 colourData[i] = Color.White;
             }
 
-            Texture2D caret = new(GraphicsDevice, 2, 25);
-            caret.SetData(colourData);
-
-            _nameTextBox = new(
-                content.Load<Texture2D>(@"GUI/textbox"),
-                caret)
+            _nameTextBox = new(GraphicsDevice, new(100, 25))
             {
                 Position = new(207, 138),
                 HasFocus = true,

@@ -17,6 +17,7 @@ namespace SummonersTale
         #region
 
         public event EventHandler Click;
+        public event EventHandler Down;
 
         #endregion
         #region Field Region
@@ -39,6 +40,8 @@ namespace SummonersTale
         {
             Role = role;
             _background = background;
+            Size = new(background.Width, background.Height);
+            Text = "";
         }
 
         #endregion
@@ -49,16 +52,16 @@ namespace SummonersTale
         {
             Rectangle destination = new(
             (int)Position.X,
-                (int)Position.Y,
-                _background.Width,
-                _background.Height);
+            (int)Position.Y,
+            (int)Size.X,
+            (int)Size.Y);
 
             spriteBatch.Draw(_background, destination, Color.White);
 
             _spriteFont = ControlManager.SpriteFont;
 
             Vector2 size = _spriteFont.MeasureString(Text);
-            Vector2 offset = new((_background.Width - size.X) / 2, ((_background.Height - size.Y) / 2));
+            Vector2 offset = new((Size.X - size.X) / 2, ((Size.Y - size.Y) / 2));
 
             spriteBatch.DrawString(_spriteFont, Text, Helper.NearestInt((Position + offset)), Color);
         }
@@ -67,7 +70,7 @@ namespace SummonersTale
         {
             MouseState mouse = Mouse.GetState();
             Point position = new(mouse.X, mouse.Y);
-            Rectangle destination = new Rectangle(
+            Rectangle destination = new(
                 (int)(Position.X + Offset.X),
                 (int)(Position.Y + Offset.Y),
                 _background.Width,
@@ -91,8 +94,49 @@ namespace SummonersTale
                 Rectangle r = destination.Scale(Settings.Scale);
 
                 if (r.Contains(position))
+                {
                     OnClick();
+                    return;
+                }
             }
+
+            if (Xin.TouchReleased() && _frames >= 5)
+            {
+                Rectangle rectangle= destination.Scale(Settings.Scale);
+
+                if (rectangle.Contains(Xin.TouchReleasedAt))
+                {
+                    OnClick();
+                    return;
+                }
+            }
+
+            if (Xin.IsMouseDown(MouseButton.Left))
+            {
+                Rectangle rectangle = destination.Scale(Settings.Scale);
+
+                if (rectangle.Contains(Xin.MouseAsPoint))
+                {
+                    OnDown();
+                    return;
+                }
+            }
+
+            if (Xin.TouchLocation != new Vector2(-1, -1))
+            {
+                Rectangle rectangle = destination.Scale(Settings.Scale);
+
+                if (rectangle.Contains(Xin.TouchLocation))
+                {
+                    OnDown();
+                    return;
+                }
+            }
+        }
+
+        private void OnDown()
+        {
+            Down?.Invoke(this, null);
         }
 
         private void OnClick()

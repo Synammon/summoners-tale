@@ -13,6 +13,7 @@ namespace SummonersTale.Forms
         private RenderTarget2D _renderTarget2D;
         private Button _menuButton;
         private IMenuForm _menuForm;
+        private FileForm _fileForm;
 
         public MainForm(Game game, Vector2 position, Point size) : base(game, position, size)
         {
@@ -67,6 +68,8 @@ namespace SummonersTale.Forms
 
             Texture2D b = new(GraphicsDevice, 1, 1);
             b.SetData(data);
+
+            _fileForm = new(Game, Vector2.Zero, Size);
         }
 
         private void MenuButton_Click(object sender, EventArgs e)
@@ -83,6 +86,18 @@ namespace SummonersTale.Forms
 
             _mapDisplay.Update(gameTime);
             _menuButton.Update(gameTime);
+
+            if (Xin.WasKeyReleased(Microsoft.Xna.Framework.Input.Keys.F1))
+            {
+                _fileForm.Role = FileFormRole.Save;
+                manager.PushState(_fileForm);
+            }
+
+            if (Xin.WasKeyReleased(Microsoft.Xna.Framework.Input.Keys.F2))
+            {
+                _fileForm.Role = FileFormRole.Open;
+                manager.PushState(_fileForm);
+            }
         }
 
         public override void Draw(GameTime gameTime)

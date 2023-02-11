@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SummonersTaleGame", "Summon
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SummonersTaleEditor", "SummonersTaleEditor\SummonersTaleEditor.csproj", "{1B490FB5-BE8B-4A15-A297-7EEB062FC2A2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SummonersTaleGameAndroid", "SummonersTaleGameAndroid\SummonersTaleGameAndroid.csproj", "{247244D2-38E8-4DA8-BE93-0EE9C430D9DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SummonersTaleGameiOS", "SummonersTaleGameiOS\SummonersTaleGameiOS.csproj", "{69760E40-EFF4-4614-8324-B138D3E8A7F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,18 @@ Global
 		{1B490FB5-BE8B-4A15-A297-7EEB062FC2A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B490FB5-BE8B-4A15-A297-7EEB062FC2A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B490FB5-BE8B-4A15-A297-7EEB062FC2A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{247244D2-38E8-4DA8-BE93-0EE9C430D9DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{247244D2-38E8-4DA8-BE93-0EE9C430D9DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{247244D2-38E8-4DA8-BE93-0EE9C430D9DB}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{247244D2-38E8-4DA8-BE93-0EE9C430D9DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{247244D2-38E8-4DA8-BE93-0EE9C430D9DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{247244D2-38E8-4DA8-BE93-0EE9C430D9DB}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{69760E40-EFF4-4614-8324-B138D3E8A7F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69760E40-EFF4-4614-8324-B138D3E8A7F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69760E40-EFF4-4614-8324-B138D3E8A7F6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{69760E40-EFF4-4614-8324-B138D3E8A7F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69760E40-EFF4-4614-8324-B138D3E8A7F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69760E40-EFF4-4614-8324-B138D3E8A7F6}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +54,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		SummonersTale\SummonersTale.projitems*{1b490fb5-be8b-4a15-a297-7eeb062fc2a2}*SharedItemsImports = 5
+		SummonersTale\SummonersTale.projitems*{247244d2-38e8-4da8-be93-0ee9c430d9db}*SharedItemsImports = 5
+		SummonersTale\SummonersTale.projitems*{69760e40-eff4-4614-8324-b138d3e8a7f6}*SharedItemsImports = 5
 		SummonersTale\SummonersTale.projitems*{9a96aeb3-7f33-4f07-803d-e3a47d58b99d}*SharedItemsImports = 5
 		SummonersTale\SummonersTale.projitems*{a0cdbd0e-3a41-42b7-9425-a838bc2c7383}*SharedItemsImports = 13
 	EndGlobalSection

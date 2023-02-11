@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ExtentionMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\Control.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\ControlManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\FileForm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\Form.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\Label.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\ListBox.cs" />
@@ -37,11 +38,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Xin.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Content\" />
     <Folder Include="$(MSBuildThisFileDirectory)TileEngine\" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
     <None Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Content\LSANS.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

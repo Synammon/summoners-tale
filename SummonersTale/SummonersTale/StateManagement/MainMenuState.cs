@@ -119,7 +119,7 @@ namespace SummonersTale.StateManagement
 
         private void LeaveButton_Click(object sender, EventArgs e)
         {
-            Game.Exit();
+            //Game.Exit();
         }
 
         private void CreditsButton_Click(object sender, EventArgs e)
@@ -152,7 +152,7 @@ namespace SummonersTale.StateManagement
 
             if (Xin.WasKeyReleased(Keys.Escape))
             {
-                Game.Exit();
+                //Game.Exit();
             }
 
 
