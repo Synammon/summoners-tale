@@ -54,6 +54,7 @@ namespace SummonersTale.Forms
             _controls = new(content.Load<SpriteFont>("Fonts/MainFont"), 100);
 
             TitleBar = new(
+                GraphicsDevice,
                 content.Load<Texture2D>("GUI/TitleBar"),
                 new(
                     0,
@@ -62,6 +63,7 @@ namespace SummonersTale.Forms
                     20));
 
             Background = new(
+                GraphicsDevice,
                 content.Load<Texture2D>("GUI/Form"),
                 new(
                     0,
@@ -118,7 +120,7 @@ namespace SummonersTale.Forms
                     Position = position
                 };
 
-                Matrix m = Matrix.CreateTranslation(new Vector3(Position, 0));
+                Matrix m = Matrix.Identity;
 
                 SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.AnisotropicWrap, null, null, null, m);
 
@@ -137,7 +139,7 @@ namespace SummonersTale.Forms
                 
                 SpriteBatch.End();
 
-                m = Matrix.CreateTranslation(new Vector3(0, 20, 0) + new Vector3(Position, 0));
+                //m = Matrix.CreateTranslation(new Vector3(0, 20, 0) + new Vector3(Position, 0));
 
                 SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.AnisotropicWrap, null, null, null, m);
 

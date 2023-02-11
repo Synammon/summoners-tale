@@ -14,6 +14,7 @@ namespace SummonersTale.Forms
         #region Field Region
 
         private Texture2D _image;
+        private readonly Texture2D _border;
         private Rectangle _sourceRect;
         private Rectangle _destRect;
         private FillMethod _fillMethod;
@@ -44,8 +45,8 @@ namespace SummonersTale.Forms
 
         public FillMethod FillMethod
         {
-            get { return _fillMethod; } 
-            set { _fillMethod = value; } 
+            get { return _fillMethod; }
+            set { _fillMethod = value; }
         }
 
         public int Width
@@ -54,9 +55,9 @@ namespace SummonersTale.Forms
             set { _width = value; }
         }
 
-        public int Height 
-        { 
-            get { return _height; } 
+        public int Height
+        {
+            get { return _height; }
             set { _height = value; }
         }
 
@@ -64,9 +65,12 @@ namespace SummonersTale.Forms
 
         #region Constructors
 
-        public PictureBox(Texture2D image, Rectangle destination)
+        public PictureBox(GraphicsDevice GraphicsDevice, Texture2D image, Rectangle destination)
         {
             Image = image;
+
+            _border = new Texture2D(GraphicsDevice, image.Width, image.Height);
+            _border.Fill(Color.Black);
 
             DestinationRectangle = destination;
 
@@ -81,7 +85,7 @@ namespace SummonersTale.Forms
             Color = Color.White;
 
             _fillMethod = FillMethod.Original;
-            
+
             if (SourceRectangle.Width > DestinationRectangle.Width)
             {
                 _sourceRect.Width = DestinationRectangle.Width;
@@ -93,8 +97,8 @@ namespace SummonersTale.Forms
             }
         }
 
-        public PictureBox(Texture2D image, Rectangle destination, Rectangle source)
-            : this(image, destination)
+        public PictureBox(GraphicsDevice GraphicsDevice, Texture2D image, Rectangle destination, Rectangle source)
+            : this(GraphicsDevice, image, destination)
         {
             SourceRectangle = source;
             Color = Color.White;
@@ -117,11 +121,15 @@ namespace SummonersTale.Forms
         #region Abstract Method Region
 
         public override void Update(GameTime gameTime)
-        {        
+        {
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            Rectangle borderDest = DestinationRectangle.Grow(1);
+
+            spriteBatch.Draw(_border, borderDest, Color.White);
+
             if (_image != null)
             {
                 switch (_fillMethod)
@@ -138,6 +146,7 @@ namespace SummonersTale.Forms
                         {
                             _sourceRect.Height = DestinationRectangle.Height;
                         }
+
                         spriteBatch.Draw(Image, DestinationRectangle, SourceRectangle, Color);
                         break;
                     case FillMethod.Clip:
@@ -150,7 +159,8 @@ namespace SummonersTale.Forms
                         {
                             _destRect.Height = DestinationRectangle.Height;
                         }
-                        spriteBatch.Draw(Image, DestinationRectangle, SourceRectangle, Color);
+
+                        spriteBatch.Draw(Image, _destRect, SourceRectangle, Color);
                         break;
                     case FillMethod.Fill:
                         _sourceRect = new(0, 0, Image.Width, Image.Height);

@@ -9,18 +9,29 @@ namespace SummonersTale.Forms
 {
     internal class Textbox : Control
     {
+        private readonly Texture2D _border;
         private readonly Texture2D _background;
         private readonly Texture2D _caret;
+        
         private double timer;
         private Color _tint;
-        private List<string> validChars = new();
+        private readonly List<string> validChars = new();
 
-        public Textbox(Texture2D background, Texture2D caret)
+        public Textbox(GraphicsDevice graphicsDevice, Vector2 size)
             : base()
         {
+
             _text = "";
-            _background = background;
-            _caret = caret;
+
+            _background = new Texture2D(graphicsDevice, (int)size.X, (int)size.Y);
+            _background.Fill(Color.White);
+
+            _border = new Texture2D(graphicsDevice, (int)size.X, (int)size.Y);
+            _border.Fill(Color.Black);
+
+            _caret = new Texture2D(graphicsDevice, 2, (int)size.Y);
+            _caret.Fill(Color.Black);
+
             _tint = Color.Black;
             foreach (char c in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTWYYXZ0123456789 -_".ToCharArray())
             {
@@ -32,7 +43,14 @@ namespace SummonersTale.Forms
         {
             Vector2 dimensions = ControlManager.SpriteFont.MeasureString(_text);
             dimensions.Y = 0;
-            spriteBatch.Draw(_background, Position, Color.White);
+
+            Rectangle location = new(
+                new((int)Position.X, (int)Position.Y), 
+                new((int)Size.X, (int)Size.Y));
+
+            spriteBatch.Draw(_border, location.Grow(1), Color.White);
+            spriteBatch.Draw(_background, location, Color.White);
+
             spriteBatch.DrawString(
                 ControlManager.SpriteFont,
                 Text,

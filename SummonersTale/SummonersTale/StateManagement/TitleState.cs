@@ -44,7 +44,7 @@ namespace SummonersTale.StateManagement
         {
             _timer -= gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (_timer <= 0)
+            if (_timer <= 0 || Xin.IsMouseDown(MouseButton.Right))
             {
                 manager.ChangeState((GameState)Game.Services.GetService(typeof(IMainMenuState)));
             }

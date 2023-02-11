@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ExtentionMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\Control.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\ControlManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\FileForm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\Form.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\Label.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\ListBox.cs" />
