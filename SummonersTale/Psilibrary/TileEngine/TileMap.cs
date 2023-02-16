@@ -15,15 +15,12 @@ namespace Psilibrary.TileEngine
         #region Field Region
 
         string mapName;
-        TileLayer groundLayer;
-        TileLayer edgeLayer;
-        TileLayer buildingLayer;
-        TileLayer decorationLayer;
+        List<ILayer> layers = new();
 
         int mapWidth;
         int mapHeight;
 
-        TileSet tileSet;
+        List<TileSet> tileSets = new();
 
         #endregion
 
@@ -37,38 +34,17 @@ namespace Psilibrary.TileEngine
         }
 
         [ContentSerializer]
-        public TileSet TileSet
+        public List<TileSet> TileSets
         {
-            get { return tileSet; }
-            set { tileSet = value; }
+            get { return tileSets; }
+            set { tileSets = value; }
         }
 
         [ContentSerializer]
-        public TileLayer GroundLayer
+        public List<ILayer> Layers
         {
-            get { return groundLayer; }
-            set { groundLayer = value; }
-        }
-
-        [ContentSerializer]
-        public TileLayer DecorationLayer
-        {
-            get { return decorationLayer; }
-            set { decorationLayer = value; }
-        }
-
-        [ContentSerializer]
-        public TileLayer EdgeLayer
-        {
-            get { return edgeLayer; }
-            set { edgeLayer = value; }
-        }
-
-        [ContentSerializer]
-        public TileLayer BuildingLayer
-        {
-            get { return buildingLayer; }
-            set { buildingLayer = value; }
+            get { return layers; }
+            set { layers = value; }
         }
 
         [ContentSerializer]
@@ -103,121 +79,38 @@ namespace Psilibrary.TileEngine
         {
         }
 
-        private TileMap(TileSet tileSet, string mapName)
+        private TileMap(List<TileSet> tileSets, string mapName)
             : this()
         {
-            this.tileSet = tileSet;
+            this.tileSets = tileSets;
             this.mapName = mapName;
         }
 
         public TileMap(
-            TileSet tileSet,
-            TileLayer groundLayer,
-            TileLayer edgeLayer,
-            TileLayer buildingLayer,
-            TileLayer decorationLayer,
+            List<TileSet> tileSets,
+            List<ILayer> layers,
             string mapName)
-            : this(tileSet, mapName)
+            : this(tileSets, mapName)
         {
-            this.groundLayer = groundLayer;
-            this.edgeLayer = edgeLayer;
-            this.buildingLayer = buildingLayer;
-            this.decorationLayer = decorationLayer;
+            this.layers = layers;
+            this.tileSets = tileSets;
 
-            mapWidth = groundLayer.Width;
-            mapHeight = groundLayer.Height;
+            TileLayer layer = (TileLayer)layers.Where(x => x is TileLayer).FirstOrDefault();
+
+            mapWidth = layer.Width;
+            mapHeight = layer.Height;
         }
 
         #endregion
 
         #region Method Region
 
-        public void SetGroundTile(int x, int y, int set, int index)
-        {
-            groundLayer.SetTile(x, y, set, index);
-        }
-
-        public Tile GetGroundTile(int x, int y)
-        {
-            return groundLayer.GetTile(x, y);
-        }
-
-        public void SetEdgeTile(int x, int y, int set, int index)
-        {
-            edgeLayer.SetTile(x, y, set, index);
-        }
-
-        public Tile GetEdgeTile(int x, int y)
-        {
-            return edgeLayer.GetTile(x, y);
-        }
-
-        public void SetBuildingTile(int x, int y, int set, int index)
-        {
-            buildingLayer.SetTile(x, y, set, index);
-        }
-
-        public Tile GetBuildingTile(int x, int y)
-        {
-            return buildingLayer.GetTile(x, y);
-        }
-
-        public void SetDecorationTile(int x, int y, int set, int index)
-        {
-            decorationLayer.SetTile(x, y, set, index);
-        }
-
-        public Tile GetDecorationTile(int x, int y)
-        {
-            return decorationLayer.GetTile(x, y);
-        }
-
-        public void FillEdges()
-        {
-            for (int y = 0; y < mapHeight; y++)
-            {
-                for (int x = 0; x < mapWidth; x++)
-                {
-                    edgeLayer.SetTile(x, y, -1, -1);
-                }
-            }
-        }
-
-        public void FillBuilding()
-        {
-            for (int y = 0; y < mapHeight; y++)
-            {
-                for (int x = 0; x < mapWidth; x++)
-                {
-                    buildingLayer.SetTile(x, y, -1, -1);
-                }
-            }
-        }
-
-        public void FillDecoration()
-        {
-            for (int y = 0; y < mapHeight; y++)
-            {
-                for (int x = 0; x < mapWidth; x++)
-                {
-                    decorationLayer.SetTile(x, y, -1, -1);
-                }
-            }
-        }
-
         public void Update(GameTime gameTime)
         {
-            if (groundLayer != null)
-                groundLayer.Update(gameTime);
-
-            if (edgeLayer != null)
-                edgeLayer.Update(gameTime);
-
-            if (buildingLayer != null)
-                buildingLayer.Update(gameTime);
-
-            if (decorationLayer != null)
-                decorationLayer.Update(gameTime);
+            foreach (ILayer layer in this.layers) 
+            { 
+                layer.Update(gameTime);
+            }
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Camera camera, bool debug = false)
@@ -247,21 +140,44 @@ namespace Psilibrary.TileEngine
                     m);
             }
 
-            if (groundLayer != null)
-                groundLayer.Draw(gameTime, spriteBatch, tileSet, camera);
-
-            if (edgeLayer != null)
-                edgeLayer.Draw(gameTime, spriteBatch, tileSet, camera);
-
-            if (decorationLayer != null)
-                decorationLayer.Draw(gameTime, spriteBatch, tileSet, camera);
-
-            if (buildingLayer != null)
-                buildingLayer.Draw(gameTime, spriteBatch, tileSet, camera);
+            foreach (ILayer layer in this.layers)
+            {
+                if (layer is TileLayer || layer is CharacterLayer)
+                    layer.Draw(spriteBatch, camera, TileSets);
+            }
 
             spriteBatch.End();
         }
 
+        public void AddLayer(ILayer layer)
+        {
+            this.layers.Add(layer); 
+        }
+
+        public bool PlayerCollides(Rectangle nextPotition)
+        {
+            CharacterLayer layer = layers.Where(x => x is CharacterLayer).FirstOrDefault() as CharacterLayer;
+
+            if (layer != null)
+            {
+                foreach (var character in layer.Characters)
+                {
+                    Rectangle rectangle = new(
+                        new(
+                            character.Tile.X * Engine.TileWidth, 
+                            character.Tile.Y * Engine.TileHeight),
+                        new(
+                            Engine.TileWidth, 
+                            Engine.TileHeight));
+                    if (rectangle.Intersects(nextPotition))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
         #endregion
     }
 }

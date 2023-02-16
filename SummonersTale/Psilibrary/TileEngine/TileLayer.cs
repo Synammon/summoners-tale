@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.IO;
 using System;
+using System.Collections.Generic;
 
 namespace Psilibrary.TileEngine
 { 
@@ -32,7 +33,7 @@ namespace Psilibrary.TileEngine
         #endregion
     }
 
-    public class TileLayer
+    public class TileLayer : ILayer
     {
         #region Field Region
 
@@ -152,7 +153,7 @@ namespace Psilibrary.TileEngine
                 return;
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, TileSet tileSet, Camera camera)
+        public void Draw(SpriteBatch spriteBatch, Camera camera, List<TileSet> tileSets)
         {
             if (!Visible)
                 return;
@@ -184,12 +185,12 @@ namespace Psilibrary.TileEngine
 
                     destination.X = x * Engine.TileWidth;
 
-                    if (tileSet.TileSheets.Count > 0)
+                    if (tileSets[0].TileSheets.Count > 0)
                     {
                         spriteBatch.Draw(
-                            tileSet.TileSheets[tile.TileSet].Texture,
+                            tileSets[0].TileSheets[tile.TileSet].Texture,
                             destination,
-                            tileSet.TileSheets[tile.TileSet].SourceRectangles[tile.TileIndex],
+                            tileSets[0].TileSheets[tile.TileSet].SourceRectangles[tile.TileIndex],
                             Color.White);
                     }
                 }
