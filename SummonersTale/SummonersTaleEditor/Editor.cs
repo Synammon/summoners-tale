@@ -7,6 +7,7 @@ using SummonersTale.Forms;
 using SummonersTale.SpriteClasses;
 using SummonersTale.StateManagement;
 using System;
+using System.Collections.Generic;
 using System.Xml.Schema;
 
 namespace SummonersTaleEditor
@@ -72,16 +73,6 @@ namespace SummonersTaleEditor
             };
 
             manager.ChangeState(_mainForm);
-
-            TileSheet sheet = new(Content.Load<Texture2D>(@"Tiles/Overworld"), "test", new(40, 36, 16, 16));
-            TileSet set = new(sheet);
-
-            TileLayer ground = new(100, 100, 0, 0);
-            TileLayer edge = new(100, 100, -1, -1);
-            TileLayer building = new(100, 100, -1, -1);
-            TileLayer decore = new(100, 100, -1, -1);
-
-            _tileMap = new(set, ground, edge, building, decore, "test");
         }
 
         protected override void Update(GameTime gameTime)

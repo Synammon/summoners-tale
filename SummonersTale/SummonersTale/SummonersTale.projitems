@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Button.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Character.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExtentionMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\Control.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\ControlManager.cs" />

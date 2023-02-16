@@ -45,23 +45,20 @@ namespace SummonersTale.StateManagement
 
         protected override void LoadContent()
         {
-            TileSheet sheet = new(content.Load<Texture2D>(@"Tiles/Overworld"), "test", new(40, 36, 16, 16));
-            TileSet set = new(sheet);
+            base.LoadContent();
 
-            TileLayer ground = new(100, 100, 0, 0);
-            TileLayer edge = new(100, 100, -1, -1);
-            TileLayer building = new(100, 100, -1, -1);
-            TileLayer decore = new(100, 100, -1, -1);
+            Texture2D texture = Game.Content.Load<Texture2D>(@"Tiles/OverWorld");
+
+            TileSheet sheet = new(texture, "base", new(40, 36, 16, 16));
+            List<TileSet> tilesets = new();
+            tilesets.Add(new(sheet));
+
+            TileLayer layer = new(100, 100, 0, 0);
+            List<ILayer> layers= new();
+            layers.Add(layer);
+
+            _tileMap = new(tilesets, layers, "test");
             
-            for (int i = 0; i < 1000; i++)
-            {
-                edge.SetTile(random.Next(0, 100), random.Next(0, 100), 0, random.Next(0, 64));
-            }
-
-            _tileMap = new(set, ground, edge, building, decore, "test");
-
-            Texture2D texture = content.Load<Texture2D>(@"CharacterSprites/femalepriest");
-
             Dictionary<string, Animation> animations = new();
 
             Animation animation = new(3, 32, 32, 0, 0) { CurrentFrame = 0, FramesPerSecond = 8 };
@@ -76,6 +73,8 @@ namespace SummonersTale.StateManagement
             animation = new(3, 32, 32, 0, 96) { CurrentFrame = 0, FramesPerSecond = 8 };
             animations.Add("walkup", animation);
 
+            texture = Game.Content.Load<Texture2D>(@"CharacterSprites/femalepriest");
+
             sprite = new(texture, animations)
             {
                 CurrentAnimation = "walkdown",
@@ -83,9 +82,28 @@ namespace SummonersTale.StateManagement
                 IsAnimating = true,
             };
 
-            base.LoadContent();
+            texture = Game.Content.Load<Texture2D>(@"CharacterSprites/femalefighter");
 
-            rightButton = new(content.Load<Texture2D>("GUI/g21245"), ButtonRole.Menu)
+            AnimatedSprite rio = new(texture, animations)
+            {
+                CurrentAnimation = "walkdown",
+                IsAnimating = true,
+            };
+
+            CharacterLayer chars = new();
+
+            chars.Characters.Add(
+                new Character("Rio", rio, "femalefighter")
+                {
+                    Position = new(320, 320),
+                    Tile = new(10, 10),
+                    Visible = true,
+                    Enabled = true,
+                });
+
+            _tileMap.AddLayer(chars);
+
+            rightButton = new(Game.Content.Load<Texture2D>("GUI/g21245"), ButtonRole.Menu)
             {
                 Position = new(80, Settings.BaseHeight - 80),
                 Size = new(32, 32),
@@ -94,34 +112,31 @@ namespace SummonersTale.StateManagement
             };
 
             rightButton.Down += RightButton_Down;
-
             Controls.Add(rightButton);
 
-            upButton = new(content.Load<Texture2D>("GUI/g21263"), ButtonRole.Menu)
+            upButton = new(Game.Content.Load<Texture2D>("GUI/g21263"), ButtonRole.Menu)
             {
                 Position = new(48, Settings.BaseHeight - 48 - 64),
-                Size= new(32, 32),
-                Text= "",
-                Color= Color.White,
+                Size = new(32, 32),
+                Text = "",
+                Color = Color.White,
             };
 
             upButton.Down += UpButton_Down;
-
             Controls.Add(upButton);
 
-            downButton = new(content.Load<Texture2D>("GUI/g21272"), ButtonRole.Menu)
+            downButton = new(Game.Content.Load<Texture2D>("GUI/g21272"), ButtonRole.Menu)
             {
-                Position= new(48, Settings.BaseHeight - 48),
+                Position = new(48, Settings.BaseHeight - 48),
                 Size = new(32, 32),
                 Text = "",
                 Color = Color.White,
             };
 
             downButton.Down += DownButton_Down;
-
             Controls.Add(downButton);
 
-            leftButton = new(content.Load<Texture2D>("GUI/g22987"), ButtonRole.Menu)
+            leftButton = new(Game.Content.Load<Texture2D>("GUI/g22987"), ButtonRole.Menu)
             {
                 Position = new(16, Settings.BaseHeight - 80),
                 Size = new(32, 32),
@@ -219,6 +234,9 @@ namespace SummonersTale.StateManagement
         {
             Controls.Update(gameTime);
 
+            sprite.Update(gameTime);
+            _tileMap.Update(gameTime);
+
             if (Xin.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.A) && !inMotion)
             {
                 MoveLeft();
@@ -237,7 +255,7 @@ namespace SummonersTale.StateManagement
                 MoveDown();
             }
 
-            if (motion != Vector2.Zero) 
+            if (motion != Vector2.Zero)
             {
                 motion.Normalize();
             }
@@ -268,12 +286,18 @@ namespace SummonersTale.StateManagement
                 sprite.Position = new((int)sprite.Position.X, (int)sprite.Position.Y);
                 return;
             }
+
+            if (_tileMap.PlayerCollides(nextPotition))
+            {
+                inMotion = false;
+                motion = Vector2.Zero;
+                return;
+            }
+
             sprite.Position = newPosition;
             sprite.Tile = Engine.VectorToCell(newPosition);
 
             _camera.LockToSprite(sprite, _tileMap);
-
-            sprite.Update(gameTime);
 
             base.Update(gameTime);
         }

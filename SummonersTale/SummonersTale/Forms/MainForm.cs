@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Psilibrary.TileEngine;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace SummonersTale.Forms
@@ -54,12 +55,19 @@ namespace SummonersTale.Forms
             TileSheet sheet = new(content.Load<Texture2D>(@"Tiles/Overworld"), "test", new(40, 36, 16, 16));
             TileSet set = new(sheet);
 
-            TileLayer ground = new(100, 100, 0, 0);
-            TileLayer edge = new(100, 100, -1, -1);
-            TileLayer building = new(100, 100, -1, -1);
-            TileLayer decore = new(100, 100, -1, -1);
+            List<TileSet> tileSets = new()
+            {
+                set
+            };
 
-            TileMap tileMap = new(set, ground, edge, building, decore, "test");
+            TileLayer ground = new(100, 100, 0, 0);
+
+            List<ILayer> layers = new()
+            {
+                ground
+            };
+
+            TileMap tileMap = new(tileSets, layers, "test");
 
             _mapDisplay.SetMap(tileMap);
 
