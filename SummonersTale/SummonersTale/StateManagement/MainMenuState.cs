@@ -134,7 +134,8 @@ namespace SummonersTale.StateManagement
 
         private void OldGameButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            manager.PushState(Game.Services.GetService<IConversationState>().GameState);
+            Visible = true;
         }
 
         private void NewGameButton_Click(object sender, EventArgs e)

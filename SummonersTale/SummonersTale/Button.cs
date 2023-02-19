@@ -28,6 +28,7 @@ namespace SummonersTale
         public ButtonRole Role { get; set; }
         public int Width { get { return _background.Width; } }
         public int Height { get { return _background.Height; } }
+        public int? Index { get; set; } = null;
 
         #endregion
 
@@ -124,9 +125,9 @@ namespace SummonersTale
 
             if (Xin.TouchLocation != new Vector2(-1, -1))
             {
-                Rectangle rectangle = destination.Scale(Settings.Scale);
+                Rectangle rectangle = new((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
 
-                if (rectangle.Contains(Xin.TouchLocation))
+                if (rectangle.Scale(Settings.Scale).Contains(Xin.TouchLocation))
                 {
                     OnDown();
                     return;
