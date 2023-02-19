@@ -16,17 +16,27 @@ namespace SummonersTaleGameiOS
         private TitleState _titleState;
         private MainMenuState _mainMenuState;
         private NewGameState _newGameState;
+        private ConversationState _conversationState;
 
         public SpriteBatch SpriteBatch => _spriteBatch;
 
         public TitleState TitleState => _titleState;
         public GamePlayState PlayState => _playState;
+        public MainMenuState MainMenuState => _mainMenuState;
+        public NewGameState NewGameState => _newGameState;
+        public ConversationState ConversationState => _conversationState;
 
         public iOS()
         {
-            SummonersTale.Settings.Load();
+            Settings.Load();
 
-            _graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredBackBufferWidth = Settings.Resolution.X,
+                PreferredBackBufferHeight = Settings.Resolution.Y,
+            };
+
+            _graphics.ApplyChanges();
             _manager = new GameStateManager(this);
 
             Services.AddService(typeof(GraphicsDeviceManager), _graphics);
@@ -39,10 +49,7 @@ namespace SummonersTaleGameiOS
 
         protected override void Initialize()
         {
-            SummonersTale.Settings.Resolution = new(
-                GraphicsDevice.DisplayMode.Width,
-                GraphicsDevice.DisplayMode.Height);
-
+            Components.Add(new FramesPerSecond(this));
             Components.Add(new Xin(this));
 
             _graphics.ApplyChanges();
@@ -59,6 +66,7 @@ namespace SummonersTaleGameiOS
             _titleState = new(this);
             _mainMenuState = new(this);
             _newGameState = new(this);
+            _conversationState = new(this);
 
             _manager.PushState(_titleState);
         }

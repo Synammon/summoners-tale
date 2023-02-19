@@ -16,11 +16,15 @@ namespace SummonersTaleGameAndroid
         private TitleState _titleState;
         private MainMenuState _mainMenuState;
         private NewGameState _newGameState;
+        private ConversationState _conversationState;
 
         public SpriteBatch SpriteBatch => _spriteBatch;
 
         public TitleState TitleState => _titleState;
         public GamePlayState PlayState => _playState;
+        public NewGameState NewGameState => _newGameState;
+        public MainMenuState MainMenuState => _mainMenuState;
+        public ConversationState ConversationState => _conversationState;
 
         public Android()
         {
@@ -59,6 +63,7 @@ namespace SummonersTaleGameAndroid
             _titleState = new(this);
             _mainMenuState = new(this);
             _newGameState = new(this);
+            _conversationState = new(this);
 
             _manager.PushState(_titleState);
         }

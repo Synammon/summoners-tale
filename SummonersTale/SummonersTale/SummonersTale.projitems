@@ -11,6 +11,8 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Button.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Character.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConversationComponents\Conversation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConversationComponents\GameScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExtentionMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\Control.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\ControlManager.cs" />
@@ -30,6 +32,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\BaseGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateManagement\ConversationState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\GamePlayState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\GameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\MainMenuState.cs" />
@@ -37,9 +40,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\StateManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\TitleState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xin.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)TileEngine\" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
