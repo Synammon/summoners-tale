@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace Psilibrary.TileEngine
 {
@@ -75,6 +76,11 @@ namespace Psilibrary.TileEngine
             Engine.viewPortRectangle = rectangle;
             Engine.TileWidth = x;
             Engine.TileHeight = y;
+        }
+
+        public static Point CellToPoint(Point tile)
+        {
+            return new(tile.X * TileWidth, tile.Y * TileHeight);
         }
 
         #endregion
