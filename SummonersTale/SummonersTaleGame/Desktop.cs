@@ -20,6 +20,8 @@ namespace SummonersTaleGame
         private NewGameState _newGameState;
         private ConversationState _conversationState;
 
+        private ConversationManager _conversationManager;
+
         public SpriteBatch SpriteBatch => _spriteBatch;
 
         public TitleState TitleState => _titleState;
@@ -64,11 +66,17 @@ namespace SummonersTaleGame
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             Services.AddService(typeof(SpriteBatch), _spriteBatch);
 
+            _conversationManager = new(this);
+            _conversationManager.LoadConverstions(this);
+            _conversationManager.WriteConversations();
+
+            Components.Add(_conversationManager);
+
+            _conversationState = new(this);
             _playState = new(this);
             _titleState = new(this);
             _mainMenuState = new(this);
             _newGameState = new(this);
-            _conversationState = new(this);
 
             _manager.PushState(_titleState);
         }

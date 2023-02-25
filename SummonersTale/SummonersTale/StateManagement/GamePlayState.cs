@@ -1,11 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Psilibrary.Characters;
+using Psilibrary.ConversationComponents;
 using Psilibrary.TileEngine;
+using SummonersTale.Characters;
 using SummonersTale.SpriteClasses;
 using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
-using System.Text;
+using System.Linq;
 
 namespace SummonersTale.StateManagement
 {
@@ -18,13 +20,15 @@ namespace SummonersTale.StateManagement
     public class GamePlayState : BaseGameState, IGamePlayState
     {
         private TileMap _tileMap;
-        private Camera _camera;
+        private Camera _camera;        
         private AnimatedSprite sprite;
         private Button upButton, downButton, leftButton, rightButton;
         private bool inMotion = false;
         private Rectangle collision = new();
         private float speed;
         private Vector2 motion;
+        private IConversationManager _conversationManager;
+        private IConversationState _conversationState;
 
         public GameState GameState => this;
 
@@ -46,6 +50,9 @@ namespace SummonersTale.StateManagement
         protected override void LoadContent()
         {
             base.LoadContent();
+
+            _conversationState = Game.Services.GetService<IConversationState>();
+            _conversationManager = Game.Services.GetService<IConversationManager>();
 
             Texture2D texture = Game.Content.Load<Texture2D>(@"Tiles/OverWorld");
 
@@ -93,12 +100,13 @@ namespace SummonersTale.StateManagement
             CharacterLayer chars = new();
 
             chars.Characters.Add(
-                new Character("Rio", rio, "femalefighter")
+                new Villager(rio, new(10, 10))
                 {
+                    Name = "Rio",
                     Position = new(320, 320),
-                    Tile = new(10, 10),
                     Visible = true,
                     Enabled = true,
+                    Conversation = "Rio"
                 });
 
             _tileMap.AddLayer(chars);
@@ -255,6 +263,11 @@ namespace SummonersTale.StateManagement
                 MoveDown();
             }
 
+            if (Xin.WasKeyReleased(Microsoft.Xna.Framework.Input.Keys.F) && !inMotion)
+            {
+                HandleConversation();
+            }
+
             if (motion != Vector2.Zero)
             {
                 motion.Normalize();
@@ -300,6 +313,31 @@ namespace SummonersTale.StateManagement
             _camera.LockToSprite(sprite, _tileMap);
 
             base.Update(gameTime);
+        }
+
+        private void HandleConversation()
+        {
+            var layer = _tileMap.Layers.FirstOrDefault(x => x is CharacterLayer);
+
+            if (layer is CharacterLayer characterLayer)
+            {
+                foreach (ICharacter c in characterLayer.Characters)
+                {
+                    if (c.Tile.X == sprite.Tile.X && Math.Abs(sprite.Tile.Y - c.Tile.Y) == 1 ||
+                       (c.Tile.Y == sprite.Tile.Y && Math.Abs(sprite.Tile.X - c.Tile.X) == 1))
+                    {
+                        if (c is Villager villager)
+                        {
+                            _conversationState.SetConversation(Player, villager.Conversation);
+                            manager.PushState((ConversationState)_conversationState);
+                            //Conversation conversation = (Conversation)_conversationManager.GetConversation(villager.Conversation);
+                            //if (conversation != null)
+                            //{
+                            //}
+                        }
+                    }
+                }
+            }
         }
 
         public override void Draw(GameTime gameTime)

@@ -11,52 +11,23 @@ namespace SummonersTale.StateManagement
     public interface IConversationState
     {
         GameState GameState { get; }
+        void SetConversation(Player player, string conversation);
+        void StartConversation();
     }
 
     public class ConversationState : BaseGameState, IConversationState
     {
-        private Conversation conversation;
+        private IConversationManager _conversations;
         private Player player;
-
+        private Conversation _conversation;
         public GameState GameState => this;
 
         public ConversationState(Game game)
             : base(game)
         {
             Game.Services.AddService<IConversationState>(this);
-
-            conversation = new();
-
-            SceneAction action = new()
-            {
-                Action = ActionType.Talk,
-                Parameter = "Help"
-            };
-
-            List<SceneOption> options = new()
-            {
-                new SceneOption("Help!", "Help", action)
-            };
-
-            action = new()
-            {
-                Action = ActionType.End,
-                Parameter = ""
-            };
-
-            options.Add(new("Goodbye.", "Goodbye", action));
-
-            GameScene scene = new(game, "Oh no! The unthinkable has happened! A thief has stolen Greynar's eyes. With out them he will not be able to animated and defend us. You have to do something or the monsters outside the village will crush us.", options);
-            conversation.AddScene("Hello", scene);
-
-            options = new();
-            options.Add(new("Goodbye.", "Gooodbye", new() { Action = ActionType.End, Parameter = "" }));
-
-            scene = new(game, "Oh thank the heavens for you!", options);
-            conversation.AddScene("Help", scene);
-
-            conversation.FirstScene = "Hello";
-            conversation.StartConversation();
+            _conversations = Game.Services.GetService<IConversationManager>();
+            _conversation = new();
         }
 
         public override void Initialize()
@@ -68,7 +39,7 @@ namespace SummonersTale.StateManagement
         {
             base.LoadContent();
 
-            foreach (GameScene scene in conversation.Scenes.Values)
+            foreach (GameScene scene in _conversation.Scenes.Values)
             {
                 scene.ItemSelected += Scene_ItemSelected;
             }
@@ -84,14 +55,14 @@ namespace SummonersTale.StateManagement
                     manager.PopState();
                     break;
                 case ActionType.Talk:
-                    conversation.ChangeScene(btn.Action.Parameter); 
+                    _conversation.ChangeScene(btn.Action.Parameter); 
                     break;
             }
         }
 
         public override void Update(GameTime gameTime)
         {
-            conversation.Update(gameTime);
+            _conversation.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -106,7 +77,7 @@ namespace SummonersTale.StateManagement
 
             base.Draw(gameTime);
 
-            conversation.Draw(gameTime, SpriteBatch);
+            _conversation.Draw(gameTime, SpriteBatch);
 
             SpriteBatch.End();
 
@@ -122,12 +93,12 @@ namespace SummonersTale.StateManagement
         public void SetConversation(Player player, string conversation)
         {
             this.player = player;
-            //this.conversation = conversations.GetConversation(conversation);
+            this._conversation = (Conversation)_conversations.GetConversation(conversation);
         }
 
         public void StartConversation()
         {
-            conversation.StartConversation();
+            _conversation.StartConversation();
         }
     }
 }
