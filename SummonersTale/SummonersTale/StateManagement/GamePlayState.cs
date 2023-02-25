@@ -324,7 +324,7 @@ namespace SummonersTale.StateManagement
                 foreach (ICharacter c in characterLayer.Characters)
                 {
                     if (c.Tile.X == sprite.Tile.X && Math.Abs(sprite.Tile.Y - c.Tile.Y) == 1 ||
-                       (c.Tile.Y == sprite.Tile.Y && Math.Abs(sprite.Tile.X - c.Tile.X) == 1))
+                        (c.Tile.Y == sprite.Tile.Y && Math.Abs(sprite.Tile.X - c.Tile.X) == 1))
                     {
                         if (c is Villager villager)
                         {
