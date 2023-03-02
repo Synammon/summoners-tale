@@ -33,6 +33,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ShadowMonsters\Move.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ShadowMonsters\ShadowMonster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\BaseGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\ConversationState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\GamePlayState.cs" />

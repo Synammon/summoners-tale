@@ -1,10 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Psilibrary.ShadowMonsters;
 using Psilibrary.TileEngine;
 using SummonersTale;
+using SummonersTale.ShadowMonsters;
 using SummonersTale.StateManagement;
 using System;
+using System.Collections.Generic;
 
 namespace SummonersTaleGame
 {
@@ -79,6 +82,52 @@ namespace SummonersTaleGame
             _newGameState = new(this);
 
             _manager.PushState(_titleState);
+
+            Move smash = new()
+            {
+                Name = "Smash",
+                Range = new(1, 6),
+                Mana = new(40, 40),
+                Target = TargetType.Enemy,
+                TargetAttribute = TargetAttribute.Health,
+                IsTemporary = false,
+                Elements = 0
+            };
+
+            string m = smash.ToString();
+
+            smash = Move.FromString(m);
+
+            List<MoveData> moves = new()
+            {
+                smash
+            };
+
+            Move bash = new()
+            {
+                Name = "Bash",
+                Range = new(2, 8),
+                Mana = new(30, 30),
+                Target = TargetType.Enemy,
+                TargetAttribute = TargetAttribute.Health,
+                IsTemporary = false,
+                Elements = 0
+            };
+
+            ShadowMonster monster = new()
+            {
+                Name = "Goblin",
+                Moves = moves,
+                Elements = 0,
+                Health = new(25, 25),
+            };
+
+            monster.LockedMoves.Add(bash);
+            monster.UnlockedMoves.Add(smash);
+
+            m = monster.ToString();
+
+            monster = ShadowMonster.FromString(m);
         }
 
         protected override void Update(GameTime gameTime)
