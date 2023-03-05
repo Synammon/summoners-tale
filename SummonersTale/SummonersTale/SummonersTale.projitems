@@ -36,9 +36,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)ShadowMonsters\Move.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ShadowMonsters\ShadowMonster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\BaseGameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateManagement\BattleOverState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateManagement\BattleState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\ConversationState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateManagement\DamageState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\GamePlayState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\GameState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateManagement\LevelUpState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\MainMenuState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\NewGameState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateManagement\StateManager.cs" />

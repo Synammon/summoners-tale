@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Psilibrary.ShadowMonsters;
 using SummonersTale.SpriteClasses;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -22,6 +23,17 @@ namespace SummonersTale.ShadowMonsters
 
         public ShadowMonster()
         {
+        }
+
+        public static float GetMoveModifier(MoveData move, ShadowMonster shadowMonster)
+        {
+
+            return 1f;
+        }
+
+        public void ResolveMove(MoveData move, ShadowMonster target)
+        {
+            
         }
 
         public void LoadContent(ContentManager Content)
@@ -145,6 +157,35 @@ namespace SummonersTale.ShadowMonsters
             }
 
             return monster;
+        }
+
+        internal long WinBattle(ShadowMonster enemy)
+        {
+            return 0;
+        }
+
+        internal bool CheckLevelUp()
+        {
+            return true;
+        }
+
+        public void AssignPoint(string s, int p)
+        {
+            Type type = typeof(ShadowMonster);
+            PropertyInfo info = type.GetProperty(s);
+
+            if (info.PropertyType != typeof(Point))
+            { 
+                info?.SetValue(this, p + (int)info.GetValue(this, null), null);
+            }
+            else
+            {
+                info?.SetValue(this, new Point(0, p) + (Point)info.GetValue(this, null), null);                
+            }
+        }
+
+        internal void StartCombat()
+        {
         }
     }
 }

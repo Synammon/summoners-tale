@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SummonersTale.ShadowMonsters;
 using SummonersTale.SpriteClasses;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SummonersTale
@@ -25,6 +27,10 @@ namespace SummonersTale
         public bool Gender { get; private set; }  
         public AnimatedSprite Sprite { get; private set; }
 
+        public List<ShadowMonster> ShadowMonsters { get; private set; } = new();
+
+        public List<ShadowMonster> BattleMonsters { get; private set; } = new();
+
         public override void Update(GameTime gameTime)
         {
             if (Sprite != null)
@@ -44,6 +50,11 @@ namespace SummonersTale
                 Sprite.Draw(_spriteBatch);
                 _spriteBatch.End();
             }
+        }
+
+        internal bool Alive()
+        {
+            return BattleMonsters.Where(x => x.Health.X > 0).Any();
         }
     }
 }
