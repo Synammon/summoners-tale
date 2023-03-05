@@ -39,6 +39,7 @@ namespace Psilibrary.ShadowMonsters
         public int SpecialDefence { get; set; }
         public int Speed { get; set; }
         public int Accuracy { get; set; }
+        public float CriticalRate { get; set; }
         public int AttackMod { get; set; }
         public int DefenceMod { get; set; }
         public int SpecialAttackMod { get; set; }

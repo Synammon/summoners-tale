@@ -22,6 +22,10 @@ namespace SummonersTaleGame
         private MainMenuState _mainMenuState;
         private NewGameState _newGameState;
         private ConversationState _conversationState;
+        private DamageState _damageState;
+        private BattleState _battleState;
+        private BattleOverState _battleOverState;
+        private LevelUpState _levelUpState;
 
         private ConversationManager _conversationManager;
 
@@ -32,6 +36,10 @@ namespace SummonersTaleGame
         public MainMenuState MainMenuState=> _mainMenuState;
         public NewGameState NewGameState => _newGameState;
         public ConversationState ConversationState => _conversationState;
+        public DamageState DamageState => _damageState;
+        public BattleState BattleState => _battleState;
+        public BattleOverState BattleOverState => _battleOverState;
+        public LevelUpState LevelUpState => _levelUpState;
 
         public Desktop()
         {
@@ -80,6 +88,10 @@ namespace SummonersTaleGame
             _titleState = new(this);
             _mainMenuState = new(this);
             _newGameState = new(this);
+            _damageState = new(this);
+            _battleOverState = new(this);
+            _battleState = new(this);
+            _levelUpState = new(this);
 
             _manager.PushState(_titleState);
 
