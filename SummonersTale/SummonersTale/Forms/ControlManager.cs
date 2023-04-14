@@ -58,6 +58,19 @@ namespace SummonersTale.Forms
 
         #region Methods
 
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            foreach (Control control in this)
+            {
+                if (control != null)
+                {
+                    spriteBatch.Begin();
+                    control.Draw(spriteBatch);
+                    spriteBatch.End();
+                }
+            }
+        }
+
         public void Update(GameTime gameTime)
         {
             if (Count == 0)
@@ -82,6 +95,26 @@ namespace SummonersTale.Forms
                 }
             }
 
+            foreach (Control c in this)
+            {
+                if (!Xin.WasMouseReleased(MouseButton.Left)) continue;
+
+                Rectangle location = new(
+                    new((int)c.Position.X, (int)c.Position.Y),
+                    new((int)c.Size.X, (int)c.Size.Y));
+
+                Point mouse = Xin.MouseAsPoint;
+
+                if (!location.Contains(mouse)) continue;
+
+                foreach (Control d in this)
+                {
+                    d.HasFocus = false;
+                }
+
+                c.HasFocus = true;
+            }
+
             if (!AcceptInput)
             {
                 return;
@@ -98,16 +131,7 @@ namespace SummonersTale.Forms
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            foreach (Control c in this)
-            {
-                if (c.Visible)
-                {
-                    c.Draw(spriteBatch);
-                }
-            }
-        }
+
 
         public void NextControl()
         {

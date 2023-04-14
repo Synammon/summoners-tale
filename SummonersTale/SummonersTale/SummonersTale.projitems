@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConversationManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConversationComponents\GameScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExtentionMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\Checkbox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\Control.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\ControlManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Forms\FileForm.cs" />
@@ -54,8 +55,8 @@
     <None Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Content\LSANS.TTF">
+    <None Include="$(MSBuildThisFileDirectory)Content\LSANS.TTF">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
 </Project>
