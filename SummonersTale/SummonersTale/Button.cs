@@ -29,6 +29,7 @@ namespace SummonersTale
         public int Width { get { return _background.Width; } }
         public int Height { get { return _background.Height; } }
         public int? Index { get; set; } = null;
+        public bool Scale {  get; set; }
 
         #endregion
 
@@ -43,6 +44,7 @@ namespace SummonersTale
             _background = background;
             Size = new(background.Width, background.Height);
             Text = "";
+            Scale = true;
         }
 
         #endregion
@@ -92,7 +94,7 @@ namespace SummonersTale
 
             if (Xin.WasMouseReleased(MouseButton.Left) && _frames >= 5)
             {
-                Rectangle r = destination.Scale(Settings.Scale);
+                Rectangle r = Scale ? destination.Scale(Settings.Scale) : destination;
 
                 if (r.Contains(position))
                 {

@@ -111,22 +111,22 @@ namespace ShadowMonsters.Controls
 
             _spriteFont = ControlManager.SpriteFont;
 
-            _yOffset = (int)((_leftTexture.Height - _spriteFont.MeasureString("W").Y) / 2);
+            _yOffset = (int)((Size.Y - _spriteFont.MeasureString("W").Y) / 2);
             _leftSide = new Rectangle(
                 (int)_position.X,
                 (int)_position.Y,
-                _leftTexture.Width,
-                _leftTexture.Height);
+                (int)_size.X,
+                (int)_size.Y);
 
             //if (selectedItem != 0)
             spriteBatch.Draw(_leftTexture, _leftSide, Color.White);
             //else
             //    spriteBatch.Draw(stopTexture, drawTo, Color.White);
 
-            drawTo.X += _leftTexture.Width + 5f;
+            drawTo.X += Size.X + 5f;
 
             float itemWidth = _spriteFont.MeasureString(_items[_selectedItem]).X;
-            float offset = (_maxItemWidth - itemWidth) / 2;
+            float offset = (_maxItemWidth - Size.X) / 2;
 
             Vector2 off = new(offset, _yOffset);
 
@@ -137,7 +137,12 @@ namespace ShadowMonsters.Controls
 
             drawTo.X += _maxItemWidth + 5f;
 
-            _rightSide = new Rectangle((int)drawTo.X, (int)drawTo.Y, _rightTexture.Width, _rightTexture.Height);
+            _rightSide = new Rectangle(
+                (int)drawTo.X, 
+                (int)drawTo.Y,
+                (int)_size.X,
+                (int)_size.Y);
+
             //if (selectedItem != items.Count - 1)
             spriteBatch.Draw(_rightTexture, _rightSide, Color.White);
             //else

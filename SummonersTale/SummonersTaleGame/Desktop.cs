@@ -67,6 +67,11 @@ namespace SummonersTaleGame
             Components.Add(new FramesPerSecond(this));
             Components.Add(new Xin(this));
 
+            Settings.Resolution = new(1920, 1080);
+
+            _graphics.PreferredBackBufferWidth = Settings.Resolution.X;
+            _graphics.PreferredBackBufferHeight = Settings.Resolution.Y;
+
             _graphics.ApplyChanges();
 
             base.Initialize();

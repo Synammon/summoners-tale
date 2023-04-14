@@ -23,13 +23,15 @@ namespace SummonersTale.Forms
 
             _text = "";
 
+            Size = size;
+
             _background = new Texture2D(graphicsDevice, (int)size.X, (int)size.Y);
             _background.Fill(Color.White);
 
             _border = new Texture2D(graphicsDevice, (int)size.X, (int)size.Y);
             _border.Fill(Color.Black);
 
-            _caret = new Texture2D(graphicsDevice, 2, (int)size.Y);
+            _caret = new Texture2D(graphicsDevice, 2, (int)size.Y - 8);
             _caret.Fill(Color.Black);
 
             _tint = Color.Black;
@@ -48,8 +50,8 @@ namespace SummonersTale.Forms
                 new((int)Position.X, (int)Position.Y), 
                 new((int)Size.X, (int)Size.Y));
 
-            spriteBatch.Draw(_border, location.Grow(1), Color.White);
-            spriteBatch.Draw(_background, location, Color.White);
+            spriteBatch.Draw(_border, location.Grow(1), null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 1f);
+            spriteBatch.Draw(_background, location, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 1f);
 
             spriteBatch.DrawString(
                 ControlManager.SpriteFont,
@@ -60,7 +62,8 @@ namespace SummonersTale.Forms
                 Vector2.Zero,
                 1f,
                 SpriteEffects.None,
-                1f);
+                0f);
+            if (!HasFocus) { return; }
             spriteBatch.Draw(
                 _caret,
                 Position + dimensions + Vector2.One * 5,
@@ -69,6 +72,7 @@ namespace SummonersTale.Forms
 
         public override void HandleInput()
         {
+
             if (!HasFocus)
             {
                 return;
@@ -79,7 +83,6 @@ namespace SummonersTale.Forms
             foreach (Keys key in keys)
             {
                 string value = Enum.GetName(typeof(Keys), key);
-
                 if (value == "Back" && _text.Length > 0)
                 {
                     _text = _text.Substring(0, _text.Length - 1);
@@ -105,6 +108,15 @@ namespace SummonersTale.Forms
                 {
                     if (ControlManager.SpriteFont.MeasureString(_text + value).X < Size.X)
                         _text += value;
+                }
+
+                if (key == Keys.OemSemicolon && !(Xin.IsKeyDown(Keys.RightShift) && !Xin.IsKeyDown(Keys.LeftShift)))
+                {
+                    _text += ';';
+                }
+                else if (key == Keys.OemSemicolon && (Xin.IsKeyDown(Keys.RightShift) || Xin.IsKeyDown(Keys.LeftShift)))
+                    {
+                    _text += ":";
                 }
             }
         }

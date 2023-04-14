@@ -20,7 +20,7 @@ namespace SummonersTale.Forms
         public ControlManager Controls { get => _controls; set => _controls = value; }
         public Point Size { get => _size; set => _size = value; }
         public bool FullScreen { get; set; }
-        public PictureBox Background { get; private set; }
+        public PictureBox Background { get; protected set; }
         public PictureBox TitleBar { get; private set; }
         public Button CloseButton { get; private set; }                
         public Rectangle Bounds { get => _bounds; protected set => _bounds = value; }
@@ -141,25 +141,21 @@ namespace SummonersTale.Forms
 
                 //m = Matrix.CreateTranslation(new Vector3(0, 20, 0) + new Vector3(Position, 0));
 
-                SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.AnisotropicWrap, null, null, null, m);
-
                 _controls.Draw(SpriteBatch);
-
-                SpriteBatch.End();
             }
             else
             {
-                SpriteBatch.Begin();
-
                 Background.DestinationRectangle = new(
                     0,
                     0,
                     _graphicsDevice.PreferredBackBufferWidth,
                     _graphicsDevice.PreferredBackBufferHeight);
 
-                _controls.Draw(SpriteBatch);
-
+                SpriteBatch.Begin();
+                Background.Draw(SpriteBatch);
                 SpriteBatch.End();
+
+                _controls.Draw(SpriteBatch);
             }
         }
     }
